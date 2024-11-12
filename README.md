@@ -2,7 +2,12 @@
 Local docker Environment for testing und playing.
 
 ## Requirements
-- docker Desktop v4.35.1 or higher || docker Engine 24.0.7 or higher 
+Windows
+- docker Desktop v4.35.1 or higher
+- better use docker inside WSL -> docker Engine 24.0.7 or higher
+
+Linux 
+- docker Engine 24.0.7 or higher
 
 ## Known Problems
 > Ubuntu Container does not start 
