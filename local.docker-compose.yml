@@ -52,7 +52,7 @@ services:
   metasploitable: 
     image: "tleemcjr/metasploitable2"
     container_name: "Metasploitable2"
-    command:  /bin/sh -c "/bin/services.sh && bash"
+    #command:  /bin/sh -c "/bin/services.sh && bash"
     networks: ["prc_net"]
 
 #  _   _      _                      _        
