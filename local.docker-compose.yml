@@ -43,8 +43,6 @@ services:
   ubuntu: 
     image: "ubuntu"
     container_name: "Ubuntu"
-    environment:
-      - "VNC_PW=passwort"
     volumes:
       - "ubuntu_home:/home"
       - "ubuntu_root:/root"
