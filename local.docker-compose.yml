@@ -28,6 +28,16 @@ services:
     stop_grace_period: 2m
     networks: ["prc_net"]
 
+# Ubuntu
+# reference: https://hub.docker.com/_/ubuntu
+  ubuntu: 
+    image: "ubuntu"
+    container_name: "Ubuntu"
+    volumes:
+      - "ubuntu_home:/home"
+      - "ubuntu_root:/root"
+    networks: ["prc_net"]
+
 # OWASP Juice-Shop
 # reference: https://pwning.owasp-juice.shop/companion-guide/latest/part1/running.html
   juice-shop:
@@ -37,14 +47,12 @@ services:
       - "3000:3000"
     networks: ["prc_net"]
 
-# Ubuntu
-# reference: https://hub.docker.com/_/ubuntu
-  ubuntu: 
-    image: "ubuntu"
-    container_name: "Ubuntu"
-    volumes:
-      - "ubuntu_home:/home"
-      - "ubuntu_root:/root"
+# Metasploitable
+# reference: https://hub.docker.com/r/tleemcjr/metasploitable2
+  metasploitable: 
+    image: "tleemcjr/metasploitable2"
+    container_name: "Metasploitable2"
+    command:  /bin/sh -c "/bin/services.sh && bash"
     networks: ["prc_net"]
 
 #  _   _      _                      _        
