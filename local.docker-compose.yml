@@ -1,5 +1,5 @@
 # CREATED BY Bruno Scholz 
-version: "3.9"
+version: "3"
 services:
 
 # Windows
@@ -39,19 +39,16 @@ services:
     networks: ["prc_net"]
 
 # Ubuntu
-# reference: https://hub.docker.com/r/kasmweb/ubuntu-focal-desktop
+# reference: https://hub.docker.com/_/ubuntu
   ubuntu: 
     image: "ubuntu"
     container_name: "Ubuntu"
     environment:
       - "VNC_PW=passwort"
     volumes:
-      - "ubuntu_core:/"
       - "ubuntu_home:/home"
       - "ubuntu_root:/root"
-    #shm-size: "2gb"
-    ports: 
-      - "6901:6901"
+    networks: ["prc_net"]
 
 #  _   _      _                      _        
 # | \ | |    | |                    | |       
@@ -83,9 +80,7 @@ volumes:
     name: "windows_storage"
   windows_share: # Windows Share
     name: "windows_share"
-  
-  ubuntu_core: # / directory
-    name: "ubuntu_core"
+
   ubuntu_home: # /home/ directory
     name: "ubuntu_home"
   ubuntu_root: # /root/ directory
