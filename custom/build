@@ -197,8 +197,7 @@ read
 # where they will be interpreted
 # ##########################################
 
-docker image build --platform linux/$XBUILD_PLATFORM \
-        -t $DOCKERIMG \
+docker image build -t $DOCKERIMG --platform linux/$XBUILD_PLATFORM \
         --build-arg DESKTOP_ENVIRONMENT=$XDESKTOP_ENVIRONMENT \
         --build-arg REMOTE_ACCESS=$XREMOTE_ACCESS \
         --build-arg KALI_PACKAGE=$XKALI_PKG \
@@ -240,4 +239,4 @@ docker start $CONTAINER
 
 # Clear environment variables from env file
 
-unset $(grep -v '^#' env | sed -E 's/(.*)=.*/\1/' | xargs)
+# unset $(grep -v '^#' env | sed -E 's/(.*)=.*/\1/' | xargs)
