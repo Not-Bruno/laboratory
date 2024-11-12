@@ -29,14 +29,27 @@ services:
     stop_grace_period: 2m
     networks: ["prc_net"]
 
+# OWASP Juice-Shop
+# reference: https://pwning.owasp-juice.shop/companion-guide/latest/part1/running.html
+  juice-shop:
+    image: "bkimminich/juice-shop"
+    container_name: "OWASP-JuiceShop"
+    ports:
+      - "3000:3000"
+    networks: ["prc_net"]
+
 # Ubuntu
 # reference: https://hub.docker.com/r/kasmweb/ubuntu-focal-desktop
   ubuntu: 
-    image: "kasmweb/ubuntu-focal-desktop:1.16.0"
-    container_name: Ubuntu
+    image: "ubuntu"
+    container_name: "Ubuntu"
     environment:
       - "VNC_PW=passwort"
-    shm-size: "2gb"
+    volumes:
+      - "ubuntu_core:/"
+      - "ubuntu_home:/home"
+      - "ubuntu_root:/root"
+    #shm-size: "2gb"
     ports: 
       - "6901:6901"
 
@@ -70,5 +83,12 @@ volumes:
     name: "windows_storage"
   windows_share: # Windows Share
     name: "windows_share"
+  
+  ubuntu_core: # / directory
+    name: "ubuntu_core"
+  ubuntu_home: # /home/ directory
+    name: "ubuntu_home"
+  ubuntu_root: # /root/ directory
+    name: "ubuntu_root"
 
 # CREATED BY Bruno Scholz
