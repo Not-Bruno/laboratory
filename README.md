@@ -1,6 +1,4 @@
 # Test Laboratory
-[![Build Status](https://github.com/Not-Bruno/testing-environment/tree/main)](https://github.com/Not-Bruno/testing-environment/)
-
 Local docker Environment for testing und playing.
 
 ## Requirements
