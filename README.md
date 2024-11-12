@@ -10,5 +10,5 @@ However, if you want to work with subnetting, it is necessary to switch to a Cla
 
 ## Ports
 Windows             -> [Browser] {ip}:8006 or {localhost}:8006<br>
-Urbuntu             -> ssh -p 22 root@{localhost}<br>
+Ubuntu             -> ssh -p 22 root@{localhost}<br>
 OWASP Juice Shop    -> [Browser] {ip}:3000 or {localhost}:3000<br>
