@@ -1,8 +1,14 @@
 # Test Laboratory
+[![Build Status](https://github.com/Not-Bruno/testing-environment/tree/main)](https://github.com/Not-Bruno/testing-environment/)
+
 Local docker Environment for testing und playing.
+
+## Requirements
+- docker Desktop v4.35.1 or higher || docker Engine 24.0.7 or higher 
 
 ## Known Problems
 > Ubuntu Container does not start 
+> Metasploitable does not start
 
 ## Network
 The local network is a Class C network. Since all containers are in the same network and should be able to see each other, subnetting is not an issue.
@@ -11,5 +17,5 @@ However, if you want to work with subnetting, it is necessary to switch to a Cla
 
 ## Ports
 Windows             -> [Browser] {ip}:8006 or {localhost}:8006<br>
-Ubuntu             -> ssh -p 22 root@{localhost}<br>
+Ubuntu              -> ssh -p 22 root@{localhost}<br>
 OWASP Juice Shop    -> [Browser] {ip}:3000 or {localhost}:3000<br>
