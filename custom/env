@@ -12,7 +12,7 @@ XSSH_PORT=20022
 
 # Container desktop environment
 # Options: "xfce" "mate" "kde" "e17" "gnome" "i3" "i3-gaps" "live" "lxde"
-XDESKTOP_ENVIRONMENT="xfce"
+XDESKTOP_ENVIRONMENT="gnome"
 
 # Remote access metohod for desktop
 # Options: "vnc" "rdp" "x2go"
@@ -34,19 +34,19 @@ XNETWORK="bridge"
 XBUILD_PLATFORM="amd64"
 
 # Name for local custom Docker image
-DOCKERIMG="custom/kali-linux"
+DOCKERIMG="kali-custom"
 
 # Name for Docker container generated from custom image
-CONTAINER="kali-linux"
+CONTAINER="kali"
 
 # Host directory to mount to container
-HOSTDIR="/home/user"
+HOSTDIR="/home/bruno/github/laboratory/custom/kali-files"
 
 # Container directory to mount host directory
-CONTAINERDIR="/opt"
+CONTAINERDIR="/home/"
 
 # Username for container user
-USERNAME="user"
+USERNAME="kali"
 
 # Password for container user
-PASSWORD="password123"
+PASSWORD="kali"
