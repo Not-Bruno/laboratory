@@ -239,4 +239,4 @@ docker start $CONTAINER
 
 # Clear environment variables from env file
 
-# unset $(grep -v '^#' env | sed -E 's/(.*)=.*/\1/' | xargs)
+unset $(grep -v '^#' env | sed -E 's/(.*)=.*/\1/' | xargs)
