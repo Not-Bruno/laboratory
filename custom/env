@@ -22,7 +22,7 @@ XREMOTE_ACCESS="rdp"
 
 # Kali packages
 # Options: "arm" "core" "default" "everything" "firmware" "headless" "labs" "large" "nethunter"
-XKALI_PKG="core"
+XKALI_PKG="everything"
 
 # Network configuration
 # Options: "bridge" "host"
