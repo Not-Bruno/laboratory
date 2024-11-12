@@ -6,7 +6,7 @@ Local docker Environment for testing und playing.
 
 ## Known Problems
 > Ubuntu Container does not start 
-> Metasploitable does not start
+> Metasploitable does not run on Docker Desktop
 
 ## Network
 The local network is a Class C network. Since all containers are in the same network and should be able to see each other, subnetting is not an issue.
