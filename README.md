@@ -1,6 +1,9 @@
 # Test Laboratory
 Local docker Environment for testing und playing.
 
+## Known Problems
+> Ubuntu Container does not start 
+
 ## Network
 The local network is a Class C network. Since all containers are in the same network and should be able to see each other, subnetting is not an issue.
 
