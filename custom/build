@@ -159,7 +159,7 @@ stty -echo
 fi
 
 # ##########################################
-# show a summary of the Installation choices 
+# summary of the Installation choices 
 # and confirm choices
 # ##########################################
 
@@ -189,7 +189,7 @@ read
 # ##########################################
 
 docker build --platform linux/$XBUILD_PLATFORM \
-	    --tag $DOCKERIMG:latest \
+	    --tag kali-custom:latest \
         --build-arg DESKTOP_ENVIRONMENT=$XDESKTOP_ENVIRONMENT \
         --build-arg REMOTE_ACCESS=$XREMOTE_ACCESS \
         --build-arg KALI_PACKAGE=$XKALI_PKG \
