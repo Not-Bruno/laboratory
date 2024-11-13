@@ -4,12 +4,6 @@
 
 export $(grep -v '^#' env | xargs)
 
-# ##########################################################################
-# Remote access variables (can be adapted)
-# ##########################################################################
-# set the default values for remote access ports
-# ##########################################################################
-
 if [ -z $XRDP_PORT ];
 then
     XRDP_PORT=13389
@@ -30,13 +24,10 @@ then
     XSSH_PORT=20022
 fi
 
-# ##########################################################################
 # Variables (For menu choice - should not be changed)
-# ##########################################################################
 # The following variables contain the default and the possible choices
 # for Desktop Environment, Remote Access, Kali Packages, Network, and build
 # architecture
-# ##########################################################################
 
 XDESKTOP_CHOICE=("xfce" "mate" "kde" "e17" "gnome" "i3" "i3-gaps" "live" "lxde")
 XREMOTE_CHOICE=("vnc" "rdp" "x2go")
@@ -198,7 +189,7 @@ read
 # ##########################################
 
 docker build --platform linux/$XBUILD_PLATFORM \
-	-t $DOCKERIMG \
+	    --tag $DOCKERIMG:latest \
         --build-arg DESKTOP_ENVIRONMENT=$XDESKTOP_ENVIRONMENT \
         --build-arg REMOTE_ACCESS=$XREMOTE_ACCESS \
         --build-arg KALI_PACKAGE=$XKALI_PKG \
@@ -221,22 +212,25 @@ docker build --platform linux/$XBUILD_PLATFORM \
 # user has made in the menu
 # ##########################################
 
-docker create   --name $CONTAINER \
-                --network $XNETWORK \
-                --platform linux/$XBUILD_PLATFORM \
-                -p $XRDP_PORT:$XRDP_PORT \
-                -p $XVNC_PORT:$XVNC_PORT \
-                -p $XSSH_PORT:$XSSH_PORT \
-                -t \
-                -v $HOSTDIR:$CONTAINERDIR \
-                $DOCKERIMG
+# Not in use -> Container is created using the compose file
+
+#docker create   --name $CONTAINER \
+#                --network $XNETWORK \
+#                --platform linux/$XBUILD_PLATFORM \
+#                -p $XRDP_PORT:$XRDP_PORT \
+#                -p $XVNC_PORT:$XVNC_PORT \
+#                -p $XSSH_PORT:$XSSH_PORT \
+#                -t \
+#                -v $HOSTDIR:$CONTAINERDIR \
+#                $DOCKERIMG
 
 # ##########################################
 # start the container
 # ##########################################
 
-echo "Image ($DOCKERIMG) and container ($CONTAINER) build successful. $CONTAINER will now start."
-docker start $CONTAINER
+echo "Image ($DOCKERIMG) build successful ..."
+#echo "Image ($DOCKERIMG) and container ($CONTAINER) build successful. $CONTAINER will now start."
+#docker start $CONTAINER
 
 # Clear environment variables from env file
 
