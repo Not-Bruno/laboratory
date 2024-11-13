@@ -1,7 +1,7 @@
 # TODO List
 
 ## docker Compose
-- Juice Shop has to get a persistent storage to keep the progress -> where are changes saved?
+- Juice Shop has to get a persistent storage to keep the progress -> where are changes saved? - possibly webroot
 - Kali doesnt work -> why t. f.
 
 ## custom Image builder
