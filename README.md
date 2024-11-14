@@ -1,6 +1,9 @@
 # Test Laboratory
 Local docker Environment for testing und playing.
 
+## Setup
+You can find more detailed information on creating the environment in the ./docker folder.
+
 ## Requirements
 Windows
 - docker Desktop v4.35.1 or higher
