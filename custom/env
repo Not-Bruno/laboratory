@@ -34,6 +34,7 @@ XNETWORK="bridge"
 XBUILD_PLATFORM="amd64"
 
 # Name for local custom Docker image
+# !! NOTE: Will be overwritten in the build file 
 DOCKERIMG="kali-custom"
 
 # Name for Docker container generated from custom image
