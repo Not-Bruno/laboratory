@@ -6,7 +6,7 @@ services:
       - '80:80'
     volumes:
       - default:/var/www/html/
-    network: [laboratory]
+    networks: [laboratory]
 
 volumes:
   default: # Default Volume

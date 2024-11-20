@@ -21,8 +21,8 @@ Powershell
     wsl --install -d Ubuntu
 ```
 
-## Run project
-You have to run the script as root. You can use 'sudo' or login as 'root'.
+## Setup laboratory
+You have to run the script as root. You can use 'sudo' or login as 'root'. Use the 'setup' file only the first time. After that, please use the 'startup' file.
 
 !! NOTE: This script has only been tested with the package managers 'apt' and 'pacman' so far. Although it should theoretically work with other supported package managers, this has not yet been verified.
 
@@ -30,6 +30,11 @@ You have to run the script as root. You can use 'sudo' or login as 'root'.
 ```bash
    chmod +x ./setup
    sudo ./setup
+```
+or
+```bash
+   chmod +x ./startup
+   sudo ./startup
 ```
 
 ## Usage/Examples
