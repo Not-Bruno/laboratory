@@ -1,9 +1,16 @@
 #!/bin/bash
 
+# define colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # Keine Farbe (reset)
+
 # Check if executed as root
 #####################################################
 if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root."
+    echo -e "${RED}>> This script must be run as root.${NC}"
     exit 1
 fi
 
@@ -13,13 +20,13 @@ if [ -f /etc/os-release ]; then
     . /etc/os-release
 
     if [[ "$ID" == "kali" ]]; then
-        echo "This script does not support Kali Linux. Exiting..."
+        echo -e "${RED}>> This script does not support Kali Linux. Exiting...${NC}"
         exit 1
     else
-        echo "Detected Linux distribution: $NAME ($ID)"
+        echo -e "${GREEN} > Detected Linux distribution: $NAME ($ID)${NC}"
     fi
 else
-    echo "Error: /etc/os-release not found. Unable to determine the Linux distribution."
+    echo -e "${RED}>> Error: /etc/os-release not found. Unable to determine the Linux distribution.${NC}"
     exit 1
 fi
 
@@ -42,7 +49,7 @@ detectPackageManager() {
     elif command -v apk >/dev/null 2>&1; then
         echo "apk"
     else
-        echo ">> Unknown package manager"
+        echo -e "${RED}>> Unknown package manager${NC}"
     fi
 }
 
@@ -51,6 +58,7 @@ executionCall() {
     local packageManager="$1"
 
     if [[ "$packageManager" == "apt" ]]; then
+        echo -e "${GREEN}"
         echo " > Detected Main Package Manager is apt"
 	echo " > Install docker engine ..."
 	apt update && apt install docker -y
@@ -59,18 +67,12 @@ executionCall() {
 	echo " > Install docker-compose ..."
 	apt install docker-compose -y
 	echo " > Setup default compose ..."
-	docker-compose -f ./docker/default.docker-compose.yml up -d
+	docker-compose -f docker/default.docker-compose.yml up -d
 	echo ">> Setup completed"
+	echo -e "${NC}"
 
-    elif [[ "$packageManager" == "pacman" echo " > Install docker engine ..."
-        zypper install docker -y
-        echo " > Start docker.service ..."
-        systemctl start docker.service
-        echo " > Install docker-compose ..."
-        zypper install docker-compose -y
-        echo " > Setup default compose ..."
-        docker-compose -f ./docker/default.docker-compose.yml up -d
-        echo ">> Setup completed"]]; then
+    elif [[ "$packageManager" == "pacman" ]]; then
+	echo -e "${GREEN}"
         echo " > Detected Main Package Manager is pacman"
 	echo " > Install docker engine ..."
         pacman -Suy
@@ -80,10 +82,12 @@ executionCall() {
         echo " > Install docker-compose ..."
         yes | pacman -S docker-compose
         echo " > Setup default compose ..."
-        docker-compose -f ./docker/default.docker-compose.yml up -d
+        docker-compose -f docker/default.docker-compose.yml up -d
         echo ">> Setup completed"
+	echo -e "${NC}"
 
     elif [[ "$packageManager" == "dnf" ]]; then
+	echo -e "${GREEN}"
         echo " > Detected Main Package Manager is dnf"
         echo " > Install docker engine ..."
         dnf install docker-ce -y
@@ -92,10 +96,12 @@ executionCall() {
         echo " > Install docker-compose ..."
         dnf install docker-compose -y
         echo " > Setup default compose ..."
-        docker-compose -f ./docker/default.docker-compose.yml up -d
+        docker-compose -f docker/default.docker-compose.yml up -d
         echo ">> Setup completed"
+	echo -e "${NC}"
 
     elif [[ "$packageManager" == "zypper" ]]; then
+	echo -e "${GREEN}"
         echo " > Detected Main Package Manager is zypper"
         echo " > Install docker engine ..."
         zypper install docker -y
@@ -104,10 +110,12 @@ executionCall() {
         echo " > Install docker-compose ..."
         zypper install docker-compose -y
         echo " > Setup default compose ..."
-        docker-compose -f ./docker/default.docker-compose.yml up -d
+        docker-compose -f docker/default.docker-compose.yml up -d
         echo ">> Setup completed"
+	echo -e "${NC}"
 
     elif [[ "$packageManager" == "apk" ]]; then
+	echo -e "${GREEN}"
         echo " > Detected Main Package Manager is apk"
 	echo " > Install docker engine ..."
         apk add docker -y
@@ -116,11 +124,12 @@ executionCall() {
         echo " > Install docker-compose ..."
         apk add docker-compose -y
         echo " > Setup default compose ..."
-        docker-compose -f ./docker/default.docker-compose.yml up -d
+        docker-compose -f docker/default.docker-compose.yml up -d
         echo ">> Setup completed"
+	echo -e "${NC}"
 
     else
-        echo ">> Unsupportet package manager: $packageManager"
+        echo -e "${RED}>> Unsupportet package manager: $packageManager${NC}"
     fi
 }
 
