@@ -6,49 +6,31 @@
 
 Local docker Environment for testing und playing.
 
-
 ## Features
 <WORK IN PROGRESS>
 
 - <placeholder>
 
 
-## Install requirements
+## Install requirements (only for Windows WSL)
+For Windows you need to install WSL first. I recommend to user Ubuntu WSL.
 
-Install needed requirements
-
-### Windows
 Powershell
 ```bash
     wsl --install
     wsl --install -d Ubuntu
 ```
-WSL Ubuntu Bash
+
+## Run project
+You have to run the script as root. You can use 'sudo' or login as 'root'.
+
+!! NOTE: This script has only been tested with the package managers 'apt' and 'pacman' so far. Although it should theoretically work with other supported package managers, this has not yet been verified.
+
+/bin/bash
 ```bash
-    apt update && apt upgrade -y
-    apt install docker.io docker-compose -y
+   chmod +x ./setup
+   sudo ./setup
 ```
-
-### Linux (Example on Ubuntu)
-Ubuntu Bash
-```bash
-    apt update && apt upgrade -y
-    apt install docker.io docker-compose -y
-```
-## Running Project
-
-Work in Progres
-
-### Windows
-```bash
-  ./setup
-```
-
-### Linux (Example on Ubuntu)
-```bash
-  ./setup
-```
-
 
 ## Usage/Examples
 
