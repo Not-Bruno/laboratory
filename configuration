@@ -1,0 +1,8 @@
+# Write values ​​in lowercase (yes || no)
+
+BASECOMPONENT=yes       # WILL BE OVERWRITTEN TO YES    -> IS CORE COMPONENT AND CONNOT BE TURNED OF
+METASPLOITABLE=yes      # Metasploitable Framwork       -> 
+JUICESHOP=no            # OWASP-Juice Shop              -> practice Webhacking
+WINDOWS11=no            # Windows 11 Home               -> practice to pentest Windows maschines
+WINDOWS7e=no            # Windows 7 enterprise          -> practice to pentest Windows
+WINDOWS2022=no          # Windows Server 22             -> practice to pentest Windows Server 22

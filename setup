@@ -1,61 +1,67 @@
 #!/bin/bash
+# CREATED BY Bruno
 
 # define colors
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[1;34m'
-NC='\033[0m' # Keine Farbe (reset)
+NC='\033[0m' # reset color
 
-# Read configfile
-######################################################
+#################################
+#                               #
+#       Handle configfile       #
+#                               #
+#################################
 # define configfile
-CONFIG_FILE="config"
+CONFIG_FILE="configuration"
 
 # check if exists
 if [ ! -f "$CONFIG_FILE" ]; then
     echo -e "${YELLOW}>> Fehler: Die Konfigurationsdatei $CONFIG_FILE existiert nicht.${NC}"
     echo -e "${YELLOW}>> Using default configuration ...${NC}"
 else
-   # read variables
-   source "$CONFIG_FILE"
-   echo -e "${BLUE}>> Load Config ...${NC}"
+    # read variables
+    source "$CONFIG_FILE"
+    echo -e "${BLUE}>> Load Config ...${NC}"
 
-   # set BASE yes -> forced
-   echo -e "${GREEN}   -> Basecomponent${NC}"
+    # set BASE yes -> forced
+    echo -e "${GREEN}   -> Basecomponent${NC}"
 
-   # check for METASPLOITABLE
-   if [ "$METASPLOITABLE" == "yes" ]; then
-      echo -e "${GREEN}   -> Metasploitable${NC}"
-   else
-      echo -e "${RED}   -> Metasploitable${NC}"
-   fi
+    # check for METASPLOITABLE
+    if [ "$METASPLOITABLE" == "yes" ]; then
+        echo -e "${GREEN}   -> Metasploitable${NC}"
+    else
+        echo -e "${RED}   -> Metasploitable${NC}"
+    fi
 
-   # check for JUICESHOP
-   if [ "$JUICESHOP" == "yes" ]; then
-      echo -e "${GREEN}   -> Juice-Shop${NC}"
-   else
-      echo -e "${RED}   -> Juice-Shop${NC}"
-   fi
+    # check for JUICESHOP
+    if [ "$JUICESHOP" == "yes" ]; then
+        echo -e "${GREEN}   -> Juice-Shop${NC}"
+    else
+        echo -e "${RED}   -> Juice-Shop${NC}"
+    fi
 
-   # check for WINDOWS11
-   if [ "$WINDOWS11" == "yes" ]; then
-      echo -e "${GREEN}   -> Windows11${NC}"
-   else
-      echo -e "${RED}   -> Windows11${NC}"
-   fi
-   echo " "
+    # check for WINDOWS11
+    if [ "$WINDOWS11" == "yes" ]; then
+        echo -e "${GREEN}   -> Windows11${NC}"
+    else
+        echo -e "${RED}   -> Windows11${NC}"
+    fi
+    echo " "
 fi
 
-# Check if executed as root
-#####################################################
+#############################
+# Check if executed as root #
+#############################
 if [ "$(id -u)" -ne 0 ]; then
     echo -e "${RED}>> This script must be run as root.${NC}"
     exit 1
 fi
 
-# Get Linux-Distro-Informations from /etc/os-release
-#####################################################
+######################################################
+# Get Linux-Distro-Informations from /etc/os-release #
+######################################################
 if [ -f /etc/os-release ]; then
     . /etc/os-release
 
@@ -73,9 +79,11 @@ else
     exit 1
 fi
 
-#########################################################
+#####################################
+#                                   #
 # 		define FUNCTIONS			#
-#########################################################
+#                                   #
+#####################################
 
 # detect system packagemanager
 detectPackageManager() {
@@ -102,74 +110,79 @@ executionCall() {
 
     if [[ "$packageManager" == "apt" ]]; then
         echo -e "${BLUE} > Detected Main Package Manager is apt${NC}"
-	echo -e "${BLUE} > Install docker engine ...${NC}"
-	apt update && apt install docker -y
-	echo -e "${BLUE} > Start docker.service ...${NC}"
-	systemctl start docker.service
-	echo -e "${BLUE} > Install docker-compose ...${NC}"
-	apt install docker-compose -y
-	echo -e "${BLUE} > Setup default compose ...${NC}"
-	docker-compose -f docker/base.docker-compose.yml up -d
-	echo -e "${GREEN}>> Setup completed${NC}"
+        echo -e "${BLUE} > Install docker engine ...${NC}"
+        apt update && apt install docker -y
+        echo -e "${BLUE} > Start docker.service ...${NC}"
+        systemctl start docker.service
+        echo -e "${BLUE} > Install docker-compose ...${NC}"
+        apt install docker-compose -y
+        echo -e "${BLUE} > Setup default compose ...${NC}"
+        docker-compose -f docker/base.docker-compose.yml up -d
+        echo -e "${GREEN}>> Setup completed${NC}"
 
     elif [[ "$packageManager" == "pacman" ]]; then
-        echo -e "${GREEN} > Detected Main Package Manager is pacman${NC}"
-	echo -e "${GREEN} > Install docker engine ...${NC}"
+        echo -e "${BLUE} > Detected Main Package Manager is pacman${NC}"
+        echo -e "${BLUE} > Install docker engine ...${NC}"
         pacman -Suy
         yes | pacman -S docker
-	echo -e "${GREEN} > Start docker.service ...${NC}"
-	service docker start && systemctl start docker
-        echo -e "${GREEN} > Install docker-compose ...${NC}"
+        echo -e "${BLUE} > Start docker.service ...${NC}"
+        service docker start && systemctl start docker
+        echo -e "${BLUE} > Install docker-compose ...${NC}"
         yes | pacman -S docker-compose
-        echo -e "${GREEN} > Setup default compose ...${NC}"
+        echo -e "${BLUE} > Setup default compose ...${NC}"
         docker-compose -f docker/base.docker-compose.yml up -d
         echo -e "${GREEN}>> Setup completed${NC}"
 
     elif [[ "$packageManager" == "dnf" ]]; then
-        echo -e "${GREEN} > Detected Main Package Manager is dnf${NC}"
-        echo -e "${GREEN} > Install docker engine ...${NC}"
+        echo -e "${BLUE} > Detected Main Package Manager is dnf${NC}"
+        echo -e "${BLUE} > Install docker engine ...${NC}"
         dnf install docker-ce -y
-        echo -e "${GREEN} > Start docker.service ...${NC}"
+        echo -e "${BLUE} > Start docker.service ...${NC}"
         systemctl start docker.service
-        echo -e "${GREEN} > Install docker-compose ...${NC}"
+        echo -e "${BLUE} > Install docker-compose ...${NC}"
         dnf install docker-compose -y
-        echo -e "${GREEN} > Setup default compose ...${NC}"
+        echo -e "${BLUE} > Setup default compose ...${NC}"
         docker-compose -f docker/base.docker-compose.yml up -d
         echo -e "${GREEN}>> Setup completed${NC}"
 
     elif [[ "$packageManager" == "zypper" ]]; then
-        echo -e "${GREEN} > Detected Main Package Manager is zypper${NC}"
-        echo -e "${GREEN} > Install docker engine ...${NC}"
+        echo -e "${BLUE} > Detected Main Package Manager is zypper${NC}"
+        echo -e "${BLUE} > Install docker engine ...${NC}"
         zypper install docker -y
-        echo -e "${GREEN} > Start docker.service ...${NC}"
+        echo -e "${BLUE} > Start docker.service ...${NC}"
         systemctl start docker.service
-        echo -e "${GREEN} > Install docker-compose ...${NC}"
+        echo -e "${BLUE} > Install docker-compose ...${NC}"
         zypper install docker-compose -y
-        echo -e "${GREEN} > Setup default compose ...${NC}"
+        echo -e "${BLUE} > Setup default compose ...${NC}"
         docker-compose -f docker/base.docker-compose.yml up -d
         echo -e "${GREEN}>> Setup completed${NC}"
 
     elif [[ "$packageManager" == "apk" ]]; then
-        echo -e "${GREEN} > Detected Main Package Manager is apk${NC}"
-	echo -e "${GREEN} > Install docker engine ...${NC}"
+        echo -e "${BLUE} > Detected Main Package Manager is apk${NC}"
+        echo -e "${BLUE} > Install docker engine ...${NC}"
         apk add docker -y
-        echo -e "${GREEN} > Start docker.service ..."
+        echo -e "${BLUE} > Start docker.service ..."
         rc-update add docker default && /etc/init.d/docker start
-        echo -e "${GREEN} > Install docker-compose ...${NC}"
+        echo -e "${BLUE} > Install docker-compose ...${NC}"
         apk add docker-compose -y
-        echo -e "${GREEN} > Setup default compose ...${NC}"
+        echo -e "${BLUE} > Setup default compose ...${NC}"
         docker-compose -f docker/base.docker-compose.yml up -d
         echo -e "${GREEN}>> Setup completed${NC}"
 
     else
         echo -e "${RED}>> Unsupportet package manager: $packageManager${NC}"
-	exit 1
+        exit 1
     fi
 }
 
-#################################################
+#################################
+#                               #
 #		Execute Script			#
-#################################################
+#                               #
+#################################
+
 executionCall $(detectPackageManager)
 echo -e "${BLUE} > Open your browser and go to 'http://localhost'. If you see the Apache default page, everything is working correctly.${NC}"
 
+
+# CREATED BY Bruno

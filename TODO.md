@@ -1,5 +1,9 @@
 # TODO List
 
+## setup
+- Config values ​​are still without function
+- setup and startup
+
 ## docker Compose
 - Juice Shop has to get a persistent storage to keep the progress -> where are changes saved? - possibly webroot
 - Kali doesnt work -> why t. f.
