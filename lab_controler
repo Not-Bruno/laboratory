@@ -91,7 +91,7 @@ main_menu() {
     chmod +x ./components/start ./components/stop ./components/setup
     while true; do
         show_menu
-        read -p "Enter your choice [1-4]: " choice
+        read -p "Enter your choice [1-5]: " choice
         case $choice in
             1) setup_call ;;
             2) start_call ;;
