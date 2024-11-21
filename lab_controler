@@ -45,6 +45,8 @@ show_configuration() {
     else
         print_msg "$RED" ">> Configuration file not found."
     fi
+    
+    read -p "Press Enter to return to the menu"
 }
 
 # Funktion für das Menü

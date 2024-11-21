@@ -66,7 +66,7 @@ stop_containers() {
         fi
     done
 
-    docker-compose -f docker/base.docker-compose.yml down --remove-orphans
+    docker-compose -f docker/basecomponent.docker-compose.yml down --remove-orphans
     print_msg "$GREEN" ">> Environment stopped successfully."
 }
 

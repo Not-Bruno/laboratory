@@ -44,18 +44,18 @@ declare -A services
 declare -A ports
 
 # Load service states from YAML (yes/no)
-services["METASPLOITABLE"]=$(yq '.services.METASPLOITABLE' "$CONFIG_FILE")
-services["JUICESHOP"]=$(yq '.services.JUICESHOP' "$CONFIG_FILE")
-services["WINDOWS11"]=$(yq '.services.WINDOWS11' "$CONFIG_FILE")
-services["WINDOWS7e"]=$(yq '.services.WINDOWS7e' "$CONFIG_FILE")
-services["WINDOWS2022"]=$(yq '.services.WINDOWS2022' "$CONFIG_FILE")
+services["METASPLOITABLE"]=$(yq '.services.metasploitable' "$CONFIG_FILE")
+services["JUICESHOP"]=$(yq '.services.juice-shop' "$CONFIG_FILE")
+services["WINDOWS11"]=$(yq '.services.windows11' "$CONFIG_FILE")
+services["WINDOWS7e"]=$(yq '.services.windows7e' "$CONFIG_FILE")
+services["WINDOWS2022"]=$(yq '.services.windows2022' "$CONFIG_FILE")
 
 # Load ports for each service from YAML
-ports["METASPLOITABLE"]=$(yq '.ports.METASPLOITABLE' "$CONFIG_FILE")
-ports["JUICESHOP"]=$(yq '.ports.JUICESHOP' "$CONFIG_FILE")
-ports["WINDOWS11"]=$(yq '.ports.WINDOWS11' "$CONFIG_FILE")
-ports["WINDOWS7e"]=$(yq '.ports.WINDOWS7e' "$CONFIG_FILE")
-ports["WINDOWS2022"]=$(yq '.ports.WINDOWS2022' "$CONFIG_FILE")
+ports["METASPLOITABLE"]=$(yq '.ports.metasploitable' "$CONFIG_FILE")
+ports["JUICESHOP"]=$(yq '.ports.juice-shop' "$CONFIG_FILE")
+ports["WINDOWS11"]=$(yq '.ports.windows11' "$CONFIG_FILE")
+ports["WINDOWS7e"]=$(yq '.ports.windows7e' "$CONFIG_FILE")
+ports["WINDOWS2022"]=$(yq '.ports.windows2022' "$CONFIG_FILE")
 
 #####################################
 # Setup Docker Containers           #
