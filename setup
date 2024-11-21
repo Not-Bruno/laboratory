@@ -122,7 +122,7 @@ setup_containers() {
         if [[ "${!service}" == "yes" ]]; then
             print_msg "$GREEN" "   -> Starting $service"
             docker-compose -f "${services[$service]}" up -d
-            print_msg "$BLUE" "      Access $service -> http://localhost:${ports[$service]}"
+            print_msg "$BLUE" "[>] Access $service -> http://localhost:${ports[$service]}"
         else
             print_msg "$RED" "   -> Skipping $service"
         fi
@@ -143,3 +143,5 @@ main() {
 }
 
 main # entrypoint
+
+# CREATED BY Bruno
