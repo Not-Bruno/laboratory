@@ -95,7 +95,7 @@ install_docker() {
 setup_containers() {
     local config_file="configuration"
     print_msg "$BLUE" ">> Setting up environment..."
-    docker-compose -f docker/base.docker-compose.yml up -d
+    docker-compose -f docker/base.docker-compose.yml up -d --remove-orphans
 
     if [ ! -f "$config_file" ]; then
         print_msg "$YELLOW" ">> Configuration file not found. Using default settings."
