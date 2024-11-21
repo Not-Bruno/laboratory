@@ -32,7 +32,7 @@ fi
 #####################################
 # Load Configuration from YAML      #
 #####################################
-CONFIG_FILE="configuration.yaml"
+CONFIG_FILE="./components/configuration.yaml"
 
 if [[ ! -f $CONFIG_FILE ]]; then
     print_msg "$RED" ">> Error: Configuration file 'config.yaml' not found."
@@ -62,7 +62,7 @@ ports["WINDOWS2022"]=$(yq '.ports.WINDOWS2022' "$CONFIG_FILE")
 #####################################
 setup_containers() {
     print_msg "$BLUE" ">> Setting up environment..."
-    docker-compose -f docker/base.docker-compose.yml up -d --remove-orphans
+    docker-compose -f docker/basecomponent.docker-compose.yml up -d --remove-orphans
 
     # Loop through services and start those that are set to "yes"
     for service in "${!services[@]}"; do

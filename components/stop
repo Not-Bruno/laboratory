@@ -25,7 +25,7 @@ fi
 # Setup Docker Containers           #
 #####################################
 stop_containers() {
-    local config_file="configuration.yaml"
+    local config_file="./components/configuration.yaml"
     print_msg "$BLUE" ">> Stopping environment..."
 
     if [ ! -f "$config_file" ]; then

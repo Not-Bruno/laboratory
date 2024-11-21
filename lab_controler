@@ -20,6 +20,20 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+# Helper function to show the content of the configuration file
+show_configuration() {
+    local config_file="./components/configuration.yaml"
+    
+    if [ -f "$config_file" ]; then
+        print_msg "$BLUE" ">> Showing content of $config_file:"
+        cat "$config_file"
+        print_msg "$GREEN" ">> Configuration file is located at: $(realpath $config_file)"
+    else
+        print_msg "$RED" ">> Configuration file not found."
+    fi
+    read -p "Press Enter to return to the menu"
+}
+
 # Funktion für das Menü
 show_menu() {
     clear
@@ -68,7 +82,8 @@ main_menu() {
             1) setup_call ;;
             2) start_call ;;
             3) stop_call ;;
-            4) 
+            4) show_configuration ;;
+            5) 
                 print_msg "$RED" "Exiting the Laboratory. Goodbye!"
                 break
                 ;;
