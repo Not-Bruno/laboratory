@@ -22,7 +22,7 @@ fi
 
 # Helper function to show the content of the configuration file in a formatted way
 show_configuration() {
-    local config_file="configuration.yaml"
+    local config_file="./components/configuration.yaml"
     
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"
@@ -45,7 +45,7 @@ show_configuration() {
     else
         print_msg "$RED" ">> Configuration file not found."
     fi
-    
+
     read -p "Press Enter to return to the menu"
 }
 
