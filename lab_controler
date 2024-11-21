@@ -22,7 +22,8 @@ fi
 
 config_controller() {
     local config_file="./components/configuration.yaml"
-    
+    local index = 1
+
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"
         
@@ -35,13 +36,14 @@ config_controller() {
 
             # Check service status and format output
             if [ "$status" == "yes" ]; then
-                print_msg "$GREEN" "$service: aktiv - Port: ${port:-'nicht definiert'}"
+                print_msg "$GREEN" "[$index] - $service: aktiv - Port: ${port:-'nicht definiert'}"
             else
-                print_msg "$RED" "$service: inaktiv"
+                print_msg "$RED" "[$index] - $service: inaktiv"
             fi
+            index=$((index+1))
         done
 
-        print_msg "$GREEN" ">> Configuration file is located at: $(realpath $config_file)"
+        print_msg "$BLUE" ">> Configuration file is located at: $(realpath $config_file)"
     else
         print_msg "$RED" ">> Configuration file not found."
     fi
