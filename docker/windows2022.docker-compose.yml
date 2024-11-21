@@ -3,9 +3,9 @@ services:
 
 # Windows 11
 # reference: https://github.com/dockur/windows
-  windows:
+  windows2022:
     image: "dockurr/windows"
-    container_name: "Windows11"
+    container_name: "WindowsServer2022"
     environment:
       - "VERSION=11"
       - "DISK_SIZE=256G"

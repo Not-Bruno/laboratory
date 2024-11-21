@@ -3,7 +3,7 @@ services:
 
 # Windows 7 Enterprise
 # reference: https://github.com/dockur/windows
-  windows:
+  windows7e:
     image: "dockurr/windows"
     container_name: "Windows7e"
     environment:

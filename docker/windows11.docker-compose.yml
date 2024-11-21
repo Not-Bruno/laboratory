@@ -3,7 +3,7 @@ services:
 
 # Windows 11
 # reference: https://github.com/dockur/windows
-  windows:
+  windows11:
     image: "dockurr/windows"
     container_name: "Windows11"
     environment:
