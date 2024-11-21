@@ -27,13 +27,13 @@ fi
 if [ -f /etc/os-release ]; then
     . /etc/os-release
     case "$ID" in
-        kali|parrot)
-            print_msg "$RED" ">> This script does not support $ID Linux. Exiting..."
-            exit 1
-            ;;
-        *)
-            print_msg "$BLUE" ">> Detected Linux distribution: $ID"
-            ;;
+    kali | parrot)
+        print_msg "$RED" ">> This script does not support $ID Linux. Exiting..."
+        exit 1
+        ;;
+    *)
+        print_msg "$BLUE" ">> Detected Linux distribution: $ID"
+        ;;
     esac
 else
     print_msg "$RED" ">> Error: /etc/os-release not found. Unable to determine the Linux distribution."
@@ -63,26 +63,26 @@ install_docker() {
     print_msg "$BLUE" ">> Installing Docker and Compose with $package_manager"
 
     case "$package_manager" in
-        apt)
-            apt update && apt install -y docker docker-compose
-            ;;
-        pacman)
-            pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose
-            ;;
-        dnf)
-            dnf install -y docker-ce docker-compose
-            ;;
-        zypper)
-            zypper install -y docker docker-compose
-            ;;
-        apk)
-            apk add --no-cache docker docker-compose
-            rc-update add docker default && /etc/init.d/docker start
-            ;;
-        *)
-            print_msg "$RED" ">> Unsupported package manager: $package_manager"
-            exit 1
-            ;;
+    apt)
+        apt update && apt install -y docker docker-compose
+        ;;
+    pacman)
+        pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose
+        ;;
+    dnf)
+        dnf install -y docker-ce docker-compose
+        ;;
+    zypper)
+        zypper install -y docker docker-compose
+        ;;
+    apk)
+        apk add --no-cache docker docker-compose
+        rc-update add docker default && /etc/init.d/docker start
+        ;;
+    *)
+        print_msg "$RED" ">> Unsupported package manager: $package_manager"
+        exit 1
+        ;;
     esac
 
     systemctl start docker.service || service docker start
