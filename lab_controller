@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Farben für das Menü
+# Colordefinition for printmessage function
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -80,25 +80,22 @@ show_menu() {
     print_msg "$BLUE" "======================================================="
 }
 
-# Funktion für Experiment 1
 setup_call() {
     ./components/setup
     read -p "Press Enter to return to the menu."
 }
 
-# Funktion für Experiment 2
 start_call() {
     ./components/start
     read -p "Press Enter to return to the menu."
 }
 
-# Funktion zum Überprüfen des Equipment-Status
 stop_call() {
     ./components/stop
     read -p "Press Enter to return to the menu"
 }
 
-# Hauptfunktion
+# Mainfunction
 main_menu() {
     chmod +x ./components/start ./components/stop ./components/setup
     while true; do
