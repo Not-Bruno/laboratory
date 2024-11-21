@@ -82,25 +82,19 @@ show_menu() {
 
 # Funktion für Experiment 1
 setup_call() {
-    print_msg "$YELLOW" ">> Setup project..."
     ./components/setup
-    print_msg "$GREEN" ">> Setup completed!"
     read -p "Press Enter to return to the menu."
 }
 
 # Funktion für Experiment 2
 start_call() {
-    print_msg "$YELLOW" ">> Starting Laboratory ..."
     ./components/start
-    print_msg "$GREEN" ">> Completed!"
     read -p "Press Enter to return to the menu."
 }
 
 # Funktion zum Überprüfen des Equipment-Status
 stop_call() {
-    print_msg "$YELLOW" ">> Stopping Laboratory ..."
     ./components/stop
-    print_msg "$GREEN" ">> All container stopped!"
     read -p "Press Enter to return to the menu"
 }
 
