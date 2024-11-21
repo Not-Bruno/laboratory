@@ -8,6 +8,6 @@ services:
 ports: # !! DO NOT CHANGE PORTS
   metasploitable: "?"
   juice-shop: "3000"
-  WINDOWS11: "8006"
-  windows11: "8007"
+  windows11: "8006"
+  windows7e: "8007"
   windows2022: "8008"
