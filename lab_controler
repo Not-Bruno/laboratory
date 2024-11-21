@@ -20,22 +20,22 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-# Helper function to show the content of the configuration file in a formatted way
 show_configuration() {
     local config_file="./components/configuration.yaml"
     
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"
-
-        # Iterate over services in the configuration file
-        services=$(yq e '.services' "$config_file")
-        for service in $(echo "$services" | yq e 'keys' -); do
+        
+        # Extract services and iterate over them
+        services=$(yq e '.services | keys[]' "$config_file")
+        
+        for service in $services; do
             status=$(yq e ".services.$service" "$config_file")
             port=$(yq e ".ports.$service" "$config_file")
-            
-            # Check service status and print it
+
+            # Check service status and format output
             if [ "$status" == "yes" ]; then
-                print_msg "$GREEN" "$service: aktiv - Port: $port"
+                print_msg "$GREEN" "$service: aktiv - Port: ${port:-'nicht definiert'}"
             else
                 print_msg "$RED" "$service: inaktiv"
             fi
@@ -46,7 +46,7 @@ show_configuration() {
         print_msg "$RED" ">> Configuration file not found."
     fi
 
-    read -p "Press Enter to return to the menu"
+    read -p "Press Enter to return to the menu."
 }
 
 # Funktion für das Menü
