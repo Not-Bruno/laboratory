@@ -142,4 +142,4 @@ main() {
     print_msg "$BLUE" ">> Open your browser and go to 'http://localhost'. If you see the Apache default page, everything is working correctly."
 }
 
-main
+main # entrypoint
