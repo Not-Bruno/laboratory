@@ -26,7 +26,6 @@ fi
 #####################################
 start_containers() {
     local config_file="./components/configuration.yaml"
-
     print_msg "$BLUE" ">> Starting environment..."
 
     # Prüfen, ob die Konfigurationsdatei existiert
@@ -37,7 +36,7 @@ start_containers() {
 
     # Prüfen, ob yq installiert ist
     if ! command -v yq &>/dev/null; then
-        print_msg "$RED" ">> Error: yq is not installed. Please install it and try again."
+        print_msg "$RED" ">> Error: yq is not installed. Please run 'setup' and try again."
         exit 1
     fi
 
