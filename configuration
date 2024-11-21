@@ -2,7 +2,7 @@
 
 BASECOMPONENT=yes       # WILL BE OVERWRITTEN TO YES    -> IS CORE COMPONENT AND CONNOT BE TURNED OF
 METASPLOITABLE=yes      # Metasploitable Framwork       -> 
-JUICESHOP=no            # OWASP-Juice Shop              -> 
-WINDOWS11=no            # Windows 11 Home               -> 
-WINDOWS7e=no            # Windows 7 enterprise          -> 
-WINDOWS2022=no          # Windows Server 22             -> 
+JUICESHOP=yes            # OWASP-Juice Shop              -> 
+WINDOWS11=yes            # Windows 11 Home               -> 
+WINDOWS7e=yes            # Windows 7 enterprise          -> 
+WINDOWS2022=yes          # Windows Server 22             -> 
