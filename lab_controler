@@ -22,7 +22,6 @@ fi
 
 config_controller() {
     local config_file="./components/configuration.yaml"
-    local index = 1
 
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"
@@ -33,6 +32,7 @@ config_controller() {
         for service in $services; do
             status=$(yq eval ".services.\"$service\"" "$config_file")
             port=$(yq eval ".ports.\"$service\"" "$config_file")
+            index=$((index+1))
 
             # Check service status and format output
             if [ "$status" == "yes" ]; then
@@ -40,7 +40,6 @@ config_controller() {
             else
                 print_msg "$RED" "[$index] - $service: inaktiv"
             fi
-            index=$((index+1))
         done
 
         print_msg "$BLUE" ">> Configuration file is located at: $(realpath $config_file)"
