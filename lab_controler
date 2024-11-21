@@ -50,19 +50,35 @@ config_controller() {
     read -p "Press Enter to return to the menu."
 }
 
+# ASCII-Art for Menue
+menu_ascii_art() {
+    echo -e "${RED}"
+    echo "                                                                                                                                  "
+    echo "░▒▓█▓▒░       ░▒▓██████▓▒░░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓███████▓▒░ ░▒▓██████▓▒░▒▓████████▓▒░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░ "
+    echo "░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+    echo "░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ "
+    echo "░▒▓█▓▒░      ░▒▓████████▓▒░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░░▒▓████████▓▒░ ░▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░  "
+    echo "░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     "
+    echo "░▒▓█▓▒░      ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░  ░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     "
+    echo "░▒▓████████▓▒░▒▓█▓▒░░▒▓█▓▒░▒▓███████▓▒░ ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓█▓▒░ ░▒▓█▓▒░   ░▒▓██████▓▒░░▒▓█▓▒░░▒▓█▓▒░  ░▒▓█▓▒░     "
+    echo "                                                                                                                                  "
+    echo -e "${NC}"
+}
+
 # Funktion für das Menü
 show_menu() {
     clear
-    print_msg "$BLUE" "===================================="
-    print_msg "$YELLOW" "         Welcome to the Laboratory"
-    print_msg "$BLUE" "===================================="
-    print_msg "$NC" "Please choose an option:"
-    print_msg "$GREEN" "1) Setup project - (only run at first start)"
-    print_msg "$GREEN" "2) Start Laboratory"
-    print_msg "$GREEN" "3) Stop Laboratory"
-    print_msg "$GREEN" "4) Show Configuration"
-    print_msg "$GREEN" "5) Exit Laboratory"
-    print_msg "$BLUE" "===================================="
+    menu_ascii_art
+    print_msg "$BLUE" "=================================================================================================================================="
+    print_msg "$YELLOW" "                                               Welcome to the Laboratory                                                        "
+    print_msg "$BLUE" "=================================================================================================================================="
+    print_msg "$NC" " > Please choose an option:"
+    print_msg "$GREEN" "    1) Setup project - (only run at first start)"
+    print_msg "$GREEN" "    2) Start Laboratory"
+    print_msg "$GREEN" "    3) Stop Laboratory"
+    print_msg "$GREEN" "    4) Show Configuration"
+    print_msg "$GREEN" "    5) Exit Laboratory"
+    print_msg "$BLUE" "=================================================================================================================================="
 }
 
 # Funktion für Experiment 1
