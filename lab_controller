@@ -71,8 +71,8 @@ show_menu() {
     print_msg "$BLUE" "======================================================="
     print_msg "$YELLOW" "           Welcome to the Laboratory                 "
     print_msg "$BLUE" "======================================================="
-    print_msg "$NC" " > Please choose an option:"
-    print_msg "$GREEN" "    1) Setup project - (only run at first start)"
+    print_msg "$YELLOW" " > Please choose an option:"
+    print_msg "$GREEN" "    1) Setup project - (run first)"
     print_msg "$GREEN" "    2) Start Laboratory"
     print_msg "$GREEN" "    3) Stop Laboratory"
     print_msg "$GREEN" "    4) Show Configuration"
@@ -110,6 +110,7 @@ main_menu() {
     while true; do
         show_menu
         read -p "Enter your choice [1-5]: " choice
+        echo " "
         case $choice in
         1) setup_call ;;
         2) start_call ;;
