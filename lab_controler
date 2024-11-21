@@ -44,7 +44,8 @@ show_menu() {
     print_msg "$GREEN" "1) Setup project - (only run at first start)"
     print_msg "$GREEN" "2) Start Laboratory"
     print_msg "$GREEN" "3) Stop Laboratory"
-    print_msg "$GREEN" "4) Exit Laboratory"
+    print_msg "$GREEN" "4) Show Configuration"
+    print_msg "$GREEN" "5) Exit Laboratory"
     print_msg "$BLUE" "===================================="
 }
 
