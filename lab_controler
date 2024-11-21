@@ -27,11 +27,11 @@ show_configuration() {
         print_msg "$BLUE" ">> Showing content of $config_file:"
         
         # Extract services and iterate over them
-        services=$(yq e '.services | keys[]' "$config_file")
+        services=$(yq eval '.services | keys[]' "$config_file")
         
         for service in $services; do
-            status=$(yq e ".services.$service" "$config_file")
-            port=$(yq e ".ports.$service" "$config_file")
+            status=$(yq eval ".services.$service" "$config_file")
+            port=$(yq eval ".ports.$service" "$config_file")
 
             # Check service status and format output
             if [ "$status" == "yes" ]; then
