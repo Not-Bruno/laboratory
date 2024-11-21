@@ -1,0 +1,13 @@
+services:
+  METASPLOITABLE: "yes"
+  JUICESHOP: "yes"
+  WINDOWS11: "no"
+  WINDOWS7e: "yes"
+  WINDOWS2022: "no"
+
+ports:
+  METASPLOITABLE: "?"
+  JUICESHOP: "3000"
+  WINDOWS11: "8006"
+  WINDOWS7e: "8007"
+  WINDOWS2022: "8008"

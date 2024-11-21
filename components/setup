@@ -55,28 +55,43 @@ detect_package_manager() {
 }
 
 #####################################
-# Install Docker and Compose        #
+# Install Docker, Compose, Python3, Pip, and yq #
 #####################################
 install_docker() {
     local package_manager="$1"
 
-    print_msg "$BLUE" ">> Installing Docker and Compose with $package_manager"
+    print_msg "$BLUE" ">> Installing Docker, Compose, Python3, Pip, and yq with $package_manager"
 
     case "$package_manager" in
     apt)
-        apt update && apt install -y docker docker-compose
+        apt update && apt install -y docker docker-compose python3 python3-pip
+        # Install yq (yq is not typically available in apt by default, so using the recommended installation method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
         ;;
     pacman)
-        pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose
+        pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose python python-pip
+        # Install yq (using the pacman package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
         ;;
     dnf)
-        dnf install -y docker-ce docker-compose
+        dnf install -y docker-ce docker-compose python3 python3-pip
+        # Install yq (using the dnf package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
         ;;
     zypper)
-        zypper install -y docker docker-compose
+        zypper install -y docker docker-compose python3 python3-pip
+        # Install yq (using the zypper package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
         ;;
     apk)
-        apk add --no-cache docker docker-compose
+        apk add --no-cache docker docker-compose python3 py3-pip
+        # Install yq (using the apk package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
         rc-update add docker default && /etc/init.d/docker start
         ;;
     *)
@@ -86,14 +101,14 @@ install_docker() {
     esac
 
     systemctl start docker.service || service docker start
-    print_msg "$GREEN" ">> Docker and Compose installed successfully."
+    print_msg "$GREEN" ">> Docker, Compose, Python3, Pip, and yq installed successfully."
 }
+
 
 #################################
 # Execute Start Script          #
 #################################
 execute_start_script() {
-    chmod +x ./start
     read -p ">> Do you want to run the start script? [y/N]: " -r response
     response=${response,,} # Convert to lowercase
     if [[ "$response" == "y" || "$response" == "yes" ]]; then

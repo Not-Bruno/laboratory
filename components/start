@@ -1,0 +1,88 @@
+#!/bin/bash
+# CREATED BY Bruno
+
+# Define colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # Reset color
+
+# Helper function for colored messages
+print_msg() {
+    echo -e "${1}${2}${NC}"
+}
+
+##############################
+# Check if yq is installed   #
+##############################
+if ! command -v yq &>/dev/null; then
+    print_msg "$RED" ">> Error: 'yq' is not installed. Please install it to parse YAML files."
+    exit 1
+fi
+
+#############################
+# Check if executed as root #
+#############################
+if [ "$(id -u)" -ne 0 ]; then
+    print_msg "$RED" ">> This script must be run as root."
+    exit 1
+fi
+
+#####################################
+# Load Configuration from YAML      #
+#####################################
+CONFIG_FILE="configuration.yaml"
+
+if [[ ! -f $CONFIG_FILE ]]; then
+    print_msg "$RED" ">> Error: Configuration file 'config.yaml' not found."
+    exit 1
+fi
+
+# Read services and ports from the YAML file
+declare -A services
+declare -A ports
+
+# Load service states from YAML (yes/no)
+services["METASPLOITABLE"]=$(yq '.services.METASPLOITABLE' "$CONFIG_FILE")
+services["JUICESHOP"]=$(yq '.services.JUICESHOP' "$CONFIG_FILE")
+services["WINDOWS11"]=$(yq '.services.WINDOWS11' "$CONFIG_FILE")
+services["WINDOWS7e"]=$(yq '.services.WINDOWS7e' "$CONFIG_FILE")
+services["WINDOWS2022"]=$(yq '.services.WINDOWS2022' "$CONFIG_FILE")
+
+# Load ports for each service from YAML
+ports["METASPLOITABLE"]=$(yq '.ports.METASPLOITABLE' "$CONFIG_FILE")
+ports["JUICESHOP"]=$(yq '.ports.JUICESHOP' "$CONFIG_FILE")
+ports["WINDOWS11"]=$(yq '.ports.WINDOWS11' "$CONFIG_FILE")
+ports["WINDOWS7e"]=$(yq '.ports.WINDOWS7e' "$CONFIG_FILE")
+ports["WINDOWS2022"]=$(yq '.ports.WINDOWS2022' "$CONFIG_FILE")
+
+#####################################
+# Setup Docker Containers           #
+#####################################
+setup_containers() {
+    print_msg "$BLUE" ">> Setting up environment..."
+    docker-compose -f docker/base.docker-compose.yml up -d --remove-orphans
+
+    # Loop through services and start those that are set to "yes"
+    for service in "${!services[@]}"; do
+        if [[ "${services[$service]}" == "yes" ]]; then
+            print_msg "$GREEN" "   -> Starting $service"
+            docker-compose -f "docker/$service.docker-compose.yml" up -d --remove-orphans
+            print_msg "$BLUE" "[>] Access $service -> http://localhost:${ports[$service]}"
+        else
+            print_msg "$RED" "   -> Skipping $service"
+        fi
+    done
+
+    print_msg "$GREEN" ">> Setup completed successfully."
+}
+
+#################################
+# Main script execution         #
+#################################
+main() {
+    setup_containers
+}
+
+main # entrypoint
