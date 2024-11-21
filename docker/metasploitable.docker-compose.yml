@@ -13,8 +13,7 @@ services:
       - "NET_RAW" # Required for packet processing
     security_opt:
       - "apparmor:unconfined"
-    #command:  /bin/sh -c "/bin/services.sh && bash"
-    networks: ["mtsb_net"]
+    networks: ["laboratory"]
 
 #  _   _      _                      _        
 # | \ | |    | |                    | |       
@@ -23,16 +22,9 @@ services:
 # | |\  |  __/ |_ \ V  V / (_) | |  |   <\__ \
 # |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\___/
 
-networks: # 192.168.2.0/24
-# System
-  mtsb_net:
-    name: "mtsb_net"
-    driver: "bridge"
-    ipam:
-      config:
-        - subnet: "192.168.2.0/24"
-          ip_range: "192.168.2.0/24"
-          gateway: "192.168.2.1"
+networks:
+  laboratory: # Defined in base compose file
+    external: true
 
 # __      __   _                           
 # \ \    / /  | |                          

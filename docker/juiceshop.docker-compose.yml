@@ -8,7 +8,7 @@ services:
     container_name: "OWASP-JuiceShop"
     ports:
       - "3000:3000"
-    networks: ["owasp_net"]
+    networks: ["laboratory"]
 
 #  _   _      _                      _        
 # | \ | |    | |                    | |       
@@ -17,16 +17,9 @@ services:
 # | |\  |  __/ |_ \ V  V / (_) | |  |   <\__ \
 # |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\___/
 
-networks: # 192.168.2.0/24
-# System
-  owasp_net:
-    name: "owasp_net"
-    driver: "bridge"
-    ipam:
-      config:
-        - subnet: "192.168.2.0/24"
-          ip_range: "192.168.2.0/24"
-          gateway: "192.168.2.1"
+networks:
+  laboratory: # Defined in base compose file
+    external: true
 
 # __      __   _                           
 # \ \    / /  | |                          

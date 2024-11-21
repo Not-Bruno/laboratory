@@ -23,11 +23,11 @@ services:
       - "NET_ADMIN"
       - "NET_RAW"
     ports:
-      - "8006:8006"
-      - "3390:3389/tcp"
-      - "3390:3389/udp"
+      - "8007:8006"
+      - "3391:3389/tcp"
+      - "3391:3389/udp"
     stop_grace_period: "2m"
-    networks: ["win_net"]
+    networks: ["laboratory"]
 
 #  _   _      _                      _        
 # | \ | |    | |                    | |       
@@ -36,16 +36,9 @@ services:
 # | |\  |  __/ |_ \ V  V / (_) | |  |   <\__ \
 # |_| \_|\___|\__| \_/\_/ \___/|_|  |_|\_\___/
 
-networks: # 192.168.2.0/24
-# System
-  win_net:
-    name: "win_net"
-    driver: "bridge"
-    ipam:
-      config:
-        - subnet: "192.168.2.0/24"
-          ip_range: "192.168.2.0/24"
-          gateway: "192.168.2.1"
+networks:
+  laboratory: # Defined in base compose file
+    external: true
 
 # __      __   _                           
 # \ \    / /  | |                          
