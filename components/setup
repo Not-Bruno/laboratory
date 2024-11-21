@@ -104,7 +104,6 @@ install_docker() {
     print_msg "$GREEN" ">> Docker, Compose, Python3, Pip, and yq installed successfully."
 }
 
-
 #################################
 # Execute Start Script          #
 #################################

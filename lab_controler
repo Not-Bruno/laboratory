@@ -25,14 +25,14 @@ config_controller() {
 
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"
-        
+
         # Extract services and iterate over them
         services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
-        
+
         for service in $services; do
             status=$(yq eval ".services.\"$service\"" "$config_file")
             port=$(yq eval ".ports.\"$service\"" "$config_file")
-            index=$((index+1))
+            index=$((index + 1))
 
             # Check service status and format output
             if [ "$status" == "yes" ]; then
@@ -56,7 +56,6 @@ menu_ascii_art() {
     echo -E " _           _                     _                   "
     echo -E "| |         | |                   | |                  "
     echo -E "| |     __ _| |__   ___  _ __ __ _| |_ ___  _ __ _   _ "
-    echo -E "| |    / _` | '_ \ / _ \| '__/ _` | __/ _ \| '__| | | |"
     echo -E "| |___| (_| | |_) | (_) | | | (_| | || (_) | |  | |_| |"
     echo -E "\_____/\__,_|_.__/ \___/|_|  \__,_|\__\___/|_|   \__, |"
     echo -E "                                                  __/ |"
@@ -112,18 +111,18 @@ main_menu() {
         show_menu
         read -p "Enter your choice [1-5]: " choice
         case $choice in
-            1) setup_call ;;
-            2) start_call ;;
-            3) stop_call ;;
-            4) config_controller ;;
-            5) 
-                print_msg "$RED" "Exiting the Laboratory. Goodbye!"
-                break
-                ;;
-            *)
-                print_msg "$RED" "Invalid choice. Please select a valid option."
-                sleep 2
-                ;;
+        1) setup_call ;;
+        2) start_call ;;
+        3) stop_call ;;
+        4) config_controller ;;
+        5)
+            print_msg "$RED" "Exiting the Laboratory. Goodbye!"
+            break
+            ;;
+        *)
+            print_msg "$RED" "Invalid choice. Please select a valid option."
+            sleep 2
+            ;;
         esac
     done
 }
