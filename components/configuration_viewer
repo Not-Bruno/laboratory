@@ -52,3 +52,14 @@ show_configuration() {
         print_msg "$RED" ">> Configuration file not found."
     fi
 }
+
+#################################
+# Main script execution         #
+#################################
+main() {
+    show_configuration
+}
+
+main # entrypoint
+
+# CREATED BY Bruno

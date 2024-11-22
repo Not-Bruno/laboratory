@@ -110,3 +110,14 @@ edit_configuration() {
         sleep 2
     done
 }
+
+#################################
+# Main script execution         #
+#################################
+main() {
+    edit_configuration
+}
+
+main # entrypoint
+
+# CREATED BY Bruno
