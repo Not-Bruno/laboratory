@@ -26,24 +26,23 @@ config_controller() {
 
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"
-
+        print_msg "$BLUE" ">> Configuration file is located at:$NC $(realpath $config_file)"
         # Extract services and iterate over them
-        services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+        local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+        local index=0
 
         for service in $services; do
-            status=$(yq eval ".services.\"$service\"" "$config_file")
-            port=$(yq eval ".ports.\"$service\"" "$config_file")
+            local enabled=$(yq eval ".services.\"$service\".enabled" "$config_file")
+            local port=$(yq eval ".services.\"$service\".port" "$config_file")
             index=$((index + 1))
 
             # Check service status and format output
-            if [ "$status" == "yes" ]; then
+            if [ "$enabled" == "yes" ]; then
                 print_msg "$GREEN" "[$index] - $service: aktiv - Port: ${port:-'nicht definiert'}"
             else
                 print_msg "$RED" "[$index] - $service: inaktiv"
             fi
         done
-
-        print_msg "$BLUE" ">> Configuration file is located at: $(realpath $config_file)"
     else
         print_msg "$RED" ">> Configuration file not found."
     fi

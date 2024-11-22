@@ -70,25 +70,25 @@ install_docker() {
         chmod +x /usr/local/bin/yq
         ;;
     pacman)
-        pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose python python-pip
+        pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose python python-pip curl
         # Install yq (using the pacman package manager or curl method)
         curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
         chmod +x /usr/local/bin/yq
         ;;
     dnf)
-        dnf install -y docker-ce docker-compose python3 python3-pip
+        dnf install -y docker-ce docker-compose python3 python3-pip curl
         # Install yq (using the dnf package manager or curl method)
         curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
         chmod +x /usr/local/bin/yq
         ;;
     zypper)
-        zypper install -y docker docker-compose python3 python3-pip
+        zypper install -y docker docker-compose python3 python3-pip curl
         # Install yq (using the zypper package manager or curl method)
         curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
         chmod +x /usr/local/bin/yq
         ;;
     apk)
-        apk add --no-cache docker docker-compose python3 py3-pip
+        apk add --no-cache docker docker-compose python3 py3-pip curl
         # Install yq (using the apk package manager or curl method)
         curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
         chmod +x /usr/local/bin/yq

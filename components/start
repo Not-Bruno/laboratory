@@ -41,8 +41,9 @@ start_containers() {
     fi
 
     # start basecomponent
+    print_msg "$GREEN" " > Start base component"
     if [ -f docker/basecomponent.docker-compose.yml ]; then
-        docker-compose -f docker/basecomponent.docker-compose.yml up -d || {
+        docker-compose -f docker/basecomponent.docker-compose.yml up -d --remove-orphans || {
             print_msg "$RED" ">> Error starting base component. Please check the logs."
         }
     else
@@ -60,7 +61,7 @@ start_containers() {
         if [[ "$enabled" == "yes" ]]; then
             if [ -f "docker/$compose_file" ]; then
                 print_msg "$GREEN" "   -> Starting $service"
-                docker-compose -f "docker/$compose_file" up -d
+                docker-compose -f "docker/$compose_file" up -d --remove-orphan
                 print_msg "$BLUE" "[>] Access $service -> http://localhost:$port"
             else
                 print_msg "$YELLOW" "   -> Warning: Docker Compose file for $service not found. Skipping $service"
