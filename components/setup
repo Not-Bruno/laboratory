@@ -54,9 +54,9 @@ detect_package_manager() {
     exit 1
 }
 
-#####################################
+#################################################
 # Install Docker, Compose, Python3, Pip, and yq #
-#####################################
+#################################################
 install_docker() {
     local package_manager="$1"
 
@@ -104,15 +104,26 @@ install_docker() {
     print_msg "$GREEN" ">> Docker, Compose, Python3, Pip, and yq installed successfully."
 }
 
-build_custom_image () {
+#############################
+#   Build custom Baseimage  #
+#############################
+
+build_custom_image() {
+    local bulder_file="./custom/builder"
     print_msg "$BLUE" ">> Execute builder"
-    
-    if [ ! -f "./custom/builder" ]; then
-        print_msg "$RED" ">> Error: Failed to execute builder."
+
+    # check if file exists
+    if [ ! -f "$bulder_file" ]; then
+        print_msg "$RED" ">> Error: Builder script not found."
         exit 1
+    fi
+
+    # execute and check for success
+    if $bulder_file; then
+        print_msg "$GREEN" ">> Build finished successfully."
     else
-        ./custom/builder
-        print_msg "$GREEN" ">> Build finished successfully"
+        print_msg "$RED" ">> Error: Build process failed."
+        exit 1
     fi
 }
 

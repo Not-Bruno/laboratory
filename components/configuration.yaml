@@ -1,13 +1,24 @@
-services:
-  metasploitable: "yes"
-  juice-shop: "yes"
-  windows11: "no"
-  windows7e: "yes"
-  windows2022: "no"
+# Configfile for Laboratory
+# !!NOTE please dont change ports
 
-ports: # !! DO NOT CHANGE PORTS
-  metasploitable: "?"
-  juice-shop: "3000"
-  windows11: "8006"
-  windows7e: "8007"
-  windows2022: "8008"
+services:
+  metasploitable:
+    enabled: "yes"
+    compose_file: "metasploitable.docker-compose.yml"
+    port: "?"
+  juice-shop:
+    enabled: "yes"
+    compose_file: "juice-shop.docker-compose.yml"
+    port: "3000"
+  windows11:
+    enabled: "no"
+    compose_file: "windows11.docker-compose.yml"
+    port: "8006"
+  windows7e:
+    enabled: "yes"
+    compose_file: "windows7e.docker-compose.yml"
+    port: "8007"
+  windows2022:
+    enabled: "no"
+    compose_file: "windows2022.docker-compose.yml"
+    port: "8008"

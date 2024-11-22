@@ -28,59 +28,30 @@ start_containers() {
     local config_file="./components/configuration.yaml"
     print_msg "$BLUE" ">> Starting environment..."
 
-    # check if file exists
+    # Check if file exists
     if [ ! -f "$config_file" ]; then
         print_msg "$RED" ">> Error: Configuration file not found at $config_file."
         exit 1
     fi
 
-    # check for yq installation
-    if ! command -v yq &>/dev/null; then
+    # Check for yq installation
+    if [ ! command -v yq &>/dev/null ]; then
         print_msg "$RED" ">> Error: yq is not installed. Please run 'setup' and try again."
         exit 1
     fi
 
-    # Read services and ports from YAML file
-    declare -A services=(
-        ["metasploitable"]=$(yq eval '.services.metasploitable' "$config_file")
-        ["juice-shop"]=$(yq eval '.services.juice-shop' "$config_file")
-        ["windows11"]=$(yq eval '.services.windows11' "$config_file")
-        ["windows7e"]=$(yq eval '.services.windows7e' "$config_file")
-        ["windows2022"]=$(yq eval '.services.windows2022' "$config_file")
-    )
+    # Loop through all services in the configuration.yaml
+    local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+    for service in $services; do
+        local enabled=$(yq eval ".services.${service}.enabled" "$config_file")
+        local compose_file=$(yq eval ".services.${service}.compose_file" "$config_file")
+        local port=$(yq eval ".services.${service}.port" "$config_file")
 
-    declare -A ports=(
-        ["metasploitable"]=$(yq eval '.ports.metasploitable' "$config_file")
-        ["juice-shop"]=$(yq eval '.ports.juice-shop' "$config_file")
-        ["windows11"]=$(yq eval '.ports.windows11' "$config_file")
-        ["windows7e"]=$(yq eval '.ports.windows7e' "$config_file")
-        ["windows2022"]=$(yq eval '.ports.windows2022' "$config_file")
-    )
-
-    declare -A compose_files=(
-        ["metasploitable"]="metasploitable.docker-compose.yml"
-        ["juice-shop"]="juice-shop.docker-compose.yml"
-        ["windows11"]="windows11.docker-compose.yml"
-        ["windows7e"]="windows7e.docker-compose.yml"
-        ["windows2022"]="windows2022.docker-compose.yml"
-    )
-
-    # start Base-Docker-Container
-    if [ -f docker/basecomponent.docker-compose.yml ]; then
-        docker-compose -f docker/basecomponent.docker-compose.yml up -d
-        print_msg "$GREEN" ">> Base component started successfully."
-    else
-        print_msg "$YELLOW" ">> Warning: Base component configuration file not found. Exiting ..."
-        exit 1
-    fi
-
-    # Start activated Container
-    for service in "${!services[@]}"; do
-        if [[ "${services[$service]}" == "yes" ]]; then
-            if [ -f "${compose_files[$service]}" ]; then
+        if [[ "$enabled" == "yes" ]]; then
+            if [ -f "docker/$compose_file" ]; then
                 print_msg "$GREEN" "   -> Starting $service"
-                docker-compose -f "docker/${compose_files[$service]}" up -d
-                print_msg "$BLUE" "[>] Access $service -> http://localhost:${ports[$service]}"
+                docker-compose -f "docker/$compose_file" up -d
+                print_msg "$BLUE" "[>] Access $service -> http://localhost:$port"
             else
                 print_msg "$YELLOW" "   -> Warning: Docker Compose file for $service not found. Skipping $service"
             fi
