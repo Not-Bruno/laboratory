@@ -17,38 +17,9 @@ print_msg() {
 # Check if executed as root #
 #############################
 if [ "$(id -u)" -ne 0 ]; then
-    print_msg "$RED" ">> This script must be run as root."
+    print_msg "$RED" ">> This script must be run as root or root privileges."
     exit 1
 fi
-
-config_controller() {
-    local config_file="./components/configuration.yaml"
-
-    if [ -f "$config_file" ]; then
-        print_msg "$BLUE" ">> Showing content of $config_file:"
-        print_msg "$BLUE" " > Configuration file is located at:$NC $(realpath $config_file)"
-        # Extract services and iterate over them
-        local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
-        local index=0
-
-        for service in $services; do
-            local enabled=$(yq eval ".services.\"$service\".enabled" "$config_file")
-            local port=$(yq eval ".services.\"$service\".port" "$config_file")
-            index=$((index + 1))
-
-            # Check service status and format output
-            if [ "$enabled" == "yes" ]; then
-                print_msg "$GREEN" "[$index] - $service: aktiv - Port: ${port:-'nicht definiert'}"
-            else
-                print_msg "$RED" "[$index] - $service: inaktiv"
-            fi
-        done
-    else
-        print_msg "$RED" ">> Configuration file not found."
-    fi
-
-    read -p "Press Enter to return to the menu."
-}
 
 # ASCII-Art for Menue
 menu_ascii_art() {
@@ -75,29 +46,46 @@ show_menu() {
     print_msg "$GREEN" "    1) Setup project - (run first)"
     print_msg "$GREEN" "    2) Start Laboratory"
     print_msg "$GREEN" "    3) Stop Laboratory"
-    print_msg "$GREEN" "    4) Show Configuration"
+    print_msg "$GREEN" "    4) Load Config controlller"
     print_msg "$GREEN" "    5) Exit Laboratory"
     print_msg "$BLUE" "======================================================="
 }
 
 setup_call() {
-    ./components/setup
+    if [ ! -f "./components/laboratory_setup" ]; then
+        print_msg "$RED" ">> Setup file not found"
+        exit 1
+    fi
     read -p "Press Enter to return to the menu."
 }
 
 start_call() {
-    ./components/start
+    if [ ! -f "./components/laboratory_start" ]; then
+        print_msg "$RED" ">> Start file not found"
+        exit 1
+    fi
     read -p "Press Enter to return to the menu."
 }
 
 stop_call() {
-    ./components/stop
-    read -p "Press Enter to return to the menu"
+    if [ ! -f "./components/laboratory_stop" ]; then
+        print_msg "$RED" ">> Stop file not found"
+        exit 1
+    fi
+    read -p "Press Enter to return to the menu."
+}
+
+config_controller() {
+    if [ ! -f "./components/config_controller" ]; then
+        print_msg "$RED" ">> Stop file not found"
+        exit 1
+    fi
+    read -p "Press Enter to return to the menu."
 }
 
 # Mainfunction
 main_menu() {
-    chmod +x ./components/start ./components/stop ./components/setup ./custom/builder
+    chmod +x ./components/laboratory_start ./components/laboratory_stop ./components/laboratory_setup ./custom/builder ./components/config_controller
     while true; do
         show_menu
         read -p "Enter your choice [1-5]: " choice

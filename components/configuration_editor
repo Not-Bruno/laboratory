@@ -1,0 +1,112 @@
+#!/bin/bash
+# CREATED BY Bruno
+
+# Colordefinition for printmessage function
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # Reset Farbe
+
+# Helper function for colored messages
+print_msg() {
+    echo -e "${1}${2}${NC}"
+}
+
+#############################
+# Check if executed as root #
+#############################
+if [ "$(id -u)" -ne 0 ]; then
+    print_msg "$RED" ">> This script must be run as root or root privileges."
+    exit 1
+fi
+
+edit_configuration() {
+    local config_file="./components/configuration.yaml"
+
+    # Überprüfen, ob die Datei existiert
+    if [ ! -f "$config_file" ]; then
+        print_msg "$RED" ">> Configuration file not found at: $(realpath $config_file)"
+        return
+    fi
+
+    while true; do
+        clear
+        print_msg "$BLUE" ">> Editing Configuration File: $(realpath $config_file)"
+        print_msg "$YELLOW" "Available Services:"
+        print_msg "$BLUE" "==============================================="
+
+        # Alle Dienste aus der YAML-Datei auflisten
+        local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+        local index=0
+
+        for service in $services; do
+            local enabled=$(yq eval ".services.\"$service\".enabled" "$config_file")
+            local port=$(yq eval ".services.\"$service\".port" "$config_file")
+            index=$((index + 1))
+            print_msg "$YELLOW" "[$index] - $service: enabled=$enabled, port=$port"
+        done
+
+        print_msg "$NC" " "
+        print_msg "$YELLOW" "Select a service to edit or press 'q' to quit."
+        read -p "Enter your choice [1-$index or q]: " choice
+
+        # Verlassen
+        if [[ "$choice" == "q" ]]; then
+            break
+        fi
+
+        # Überprüfen, ob die Eingabe gültig ist
+        if [[ ! "$choice" =~ ^[0-9]+$ ]] || [ "$choice" -lt 1 ] || [ "$choice" -gt "$index" ]; then
+            print_msg "$RED" "Invalid choice. Please try again."
+            sleep 2
+            continue
+        fi
+
+        # Namen des gewählten Dienstes abrufen
+        local selected_service=$(echo "$services" | sed -n "${choice}p")
+
+        # Optionen für den gewählten Dienst anzeigen
+        print_msg "$NC" " "
+        print_msg "$YELLOW" "Editing service: $selected_service"
+        local current_enabled=$(yq eval ".services.\"$selected_service\".enabled" "$config_file")
+        local current_port=$(yq eval ".services.\"$selected_service\".port" "$config_file")
+        print_msg "$NC" "Current settings: enabled=$current_enabled, port=$current_port"
+        print_msg "$NC" " "
+        print_msg "$YELLOW" "Options:"
+        print_msg "$GREEN" "1) Toggle enabled (current: $current_enabled)"
+        print_msg "$GREEN" "2) Change port (current: $current_port)"
+        print_msg "$GREEN" "3) Back to Manue list"
+
+        read -p "Enter your choice [1-3]: " action
+
+        case $action in
+        1) # Aktivierung umschalten
+            local new_enabled="no"
+            if [ "$current_enabled" == "no" ]; then
+                new_enabled="yes"
+            fi
+            yq eval -i ".services.\"$selected_service\".enabled = \"$new_enabled\"" "$config_file"
+            print_msg "$GREEN" ">> Service '$selected_service' enabled set to: $new_enabled"
+            ;;
+        2) # Port ändern
+            read -p "Enter new port (or leave blank to unset): " new_port
+            if [ -z "$new_port" ]; then
+                yq eval -i "del(.services.\"$selected_service\".port)" "$config_file"
+                print_msg "$GREEN" ">> Port for service '$selected_service' has been unset."
+            else
+                yq eval -i ".services.\"$selected_service\".port = \"$new_port\"" "$config_file"
+                print_msg "$GREEN" ">> Port for service '$selected_service' changed to: $new_port"
+            fi
+            ;;
+        3)
+            continue
+            ;;
+        *)
+            print_msg "$RED" "Invalid option. Returning to service list."
+            sleep 2
+            ;;
+        esac
+        sleep 2
+    done
+}

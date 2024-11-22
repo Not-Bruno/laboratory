@@ -17,7 +17,7 @@ print_msg() {
 # Check if executed as root #
 #############################
 if [ "$(id -u)" -ne 0 ]; then
-    print_msg "$RED" ">> This script must be run as root."
+    print_msg "$RED" ">> This script must be run as root or root privileges."
     exit 1
 fi
 
