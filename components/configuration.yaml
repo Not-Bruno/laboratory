@@ -15,7 +15,7 @@ services:
     compose_file: "windows11.docker-compose.yml"
     port: "8006"
   windows7e:
-    enabled: "yes"
+    enabled: "no"
     compose_file: "windows7e.docker-compose.yml"
     port: "8007"
   windows2022:

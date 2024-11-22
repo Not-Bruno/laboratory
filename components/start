@@ -35,8 +35,18 @@ start_containers() {
     fi
 
     # Check for yq installation
-    if [ ! command -v yq &>/dev/null ]; then
+    if [ ! command -v yq ] &>/dev/null; then
         print_msg "$RED" ">> Error: yq is not installed. Please run 'setup' and try again."
+        exit 1
+    fi
+
+    # start basecomponent
+    if [ -f docker/basecomponent.docker-compose.yml ]; then
+        docker-compose -f docker/basecomponent.docker-compose.yml up -d || {
+            print_msg "$RED" ">> Error starting base component. Please check the logs."
+        }
+    else
+        print_msg "$YELLOW" ">> Warning: Base component configuration file not found. Skipping..."
         exit 1
     fi
 
