@@ -104,17 +104,15 @@ install_docker() {
     print_msg "$GREEN" ">> Docker, Compose, Python3, Pip, and yq installed successfully."
 }
 
-#################################
-# Execute Start Script          #
-#################################
-execute_start_script() {
-    read -p ">> Do you want to run the start script? [y/N]: " -r response
-    response=${response,,} # Convert to lowercase
-    if [[ "$response" == "y" || "$response" == "yes" ]]; then
-        print_msg "$GREEN" ">> Executing the start script..."
-        ./start || print_msg "$RED" ">> Error: Failed to execute start.sh"
+build_custom_image () {
+    print_msg "$BLUE" ">> Execute builder"
+    
+    if [ ! -f "./custom/builder" ]; then
+        print_msg "$RED" ">> Error: Failed to execute builder."
+        exit 1
     else
-        print_msg "$YELLOW" ">> Skipping the start script."
+        ./custom/builder
+        print_msg "$GREEN" ">> Build finished successfully"
     fi
 }
 
@@ -125,7 +123,7 @@ main() {
     local package_manager
     package_manager=$(detect_package_manager)
     install_docker "$package_manager"
-    execute_start_script
+    build_custom_image
 }
 
 main # entrypoint

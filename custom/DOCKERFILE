@@ -1,2 +1,15 @@
-FROM httpd
+FROM php:8.2-apache
 
+ENV WEBROOT=/var/www/html \
+    INDEXFILE=index.html \
+    STYLEFILE=style.css
+
+COPY ./content/${INDEXFILE} ${WEBROOT}
+
+WORKDIR ${WEBROOT}
+
+RUN chown -R www-data:www-data $WEBROOT && chmod -R 755 $WEBROOT
+
+EXPOSE 80
+
+CMD [ "apache2-foreground" ]

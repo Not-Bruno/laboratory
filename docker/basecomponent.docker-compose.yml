@@ -1,16 +1,10 @@
 services:
   webserver:
-    image: "httpd"
+    image: "laboratory"
     container_name: "Webserver"
     ports:
       - '80:80'
-    volumes:
-      - default:/var/www/html/
     networks: [laboratory]
-
-volumes:
-  default: # Default Volume
-    name: "default"
 
 networks:
   # Laboratory Network
