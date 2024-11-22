@@ -56,6 +56,7 @@ setup_call() {
         print_msg "$RED" ">> Setup file not found"
         exit 1
     fi
+    ./components/laboratory_setup
     read -p "Press Enter to return to the menu."
 }
 
@@ -64,6 +65,7 @@ start_call() {
         print_msg "$RED" ">> Start file not found"
         exit 1
     fi
+    ./components/laboratory_start
     read -p "Press Enter to return to the menu."
 }
 
@@ -72,6 +74,7 @@ stop_call() {
         print_msg "$RED" ">> Stop file not found"
         exit 1
     fi
+    ./components/laboratory_stop
     read -p "Press Enter to return to the menu."
 }
 
@@ -80,6 +83,7 @@ config_controller() {
         print_msg "$RED" ">> Stop file not found"
         exit 1
     fi
+    ./components/config_controller
     read -p "Press Enter to return to the menu."
 }
 

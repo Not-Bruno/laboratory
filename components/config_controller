@@ -54,6 +54,7 @@ editor_call() {
         print_msg "$RED" ">> Configuration Editor file not found"
         exit 1
     fi
+    ./components/configuration_editor
     read -p "Press Enter to return to the menu."
 }
 
@@ -62,6 +63,7 @@ viewer_call() {
         print_msg "$RED" ">> Configuration Viewer file not found"
         exit 1
     fi
+    ./components/configuration_viewer
     read -p "Press Enter to return to the menu."
 }
 
