@@ -1,4 +1,5 @@
 #!/bin/bash
+# CREATED BY Bruno
 
 # Colordefinition for printmessage function
 RED='\033[0;31m'
@@ -97,7 +98,7 @@ stop_call() {
 
 # Mainfunction
 main_menu() {
-    chmod +x ./components/start ./components/stop ./components/setup
+    chmod +x ./components/start ./components/stop ./components/setup ./custom/builder
     while true; do
         show_menu
         read -p "Enter your choice [1-5]: " choice
@@ -121,3 +122,5 @@ main_menu() {
 
 # Skript starten
 main_menu
+
+# CREATED BY Bruno
