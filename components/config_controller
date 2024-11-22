@@ -55,7 +55,6 @@ editor_call() {
         exit 1
     fi
     ./components/configuration_editor
-    read -p "Press Enter to return to the menu."
 }
 
 viewer_call() {

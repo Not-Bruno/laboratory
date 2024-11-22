@@ -57,7 +57,7 @@ detect_package_manager() {
 #################################################
 # Install Docker, Compose, Python3, Pip, and yq #
 #################################################
-install_docker() {
+install_dependencies() {
     local package_manager="$1"
 
     print_msg "$BLUE" ">> Installing Docker, Compose, Python3, Pip, and yq with $package_manager"
@@ -133,7 +133,7 @@ build_custom_image() {
 main() {
     local package_manager
     package_manager=$(detect_package_manager)
-    install_docker "$package_manager"
+    install_dependencies "$package_manager"
     build_custom_image
 }
 

@@ -74,11 +74,11 @@ edit_configuration() {
         print_msg "$NC" "Current settings: enabled=$current_enabled, port=$current_port"
         print_msg "$NC" " "
         print_msg "$YELLOW" "Options:"
-        print_msg "$GREEN" "1) Toggle enabled (current: $current_enabled)"
-        print_msg "$GREEN" "2) Change port (current: $current_port)"
-        print_msg "$GREEN" "3) Back to Manue list"
+        print_msg "$GREEN" "    1) Toggle enabled (current: $current_enabled)"
+        #print_msg "$GREEN" "2) Change port (current: $current_port)"
+        print_msg "$GREEN" "    2) Back to Manue list"
 
-        read -p "Enter your choice [1-3]: " action
+        read -p "Enter your choice [1-2]: " action
 
         case $action in
         1) # Aktivierung umschalten
@@ -89,7 +89,7 @@ edit_configuration() {
             yq eval -i ".services.\"$selected_service\".enabled = \"$new_enabled\"" "$config_file"
             print_msg "$GREEN" ">> Service '$selected_service' enabled set to: $new_enabled"
             ;;
-        2) # Port ändern
+        NULL) # Change port - Beta not in active production -  u can access it but if u change any port u will destroy the laboratory
             read -p "Enter new port (or leave blank to unset): " new_port
             if [ -z "$new_port" ]; then
                 yq eval -i "del(.services.\"$selected_service\".port)" "$config_file"
@@ -99,7 +99,7 @@ edit_configuration() {
                 print_msg "$GREEN" ">> Port for service '$selected_service' changed to: $new_port"
             fi
             ;;
-        3)
+        2)
             continue
             ;;
         *)
