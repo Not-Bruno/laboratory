@@ -2,9 +2,12 @@ FROM php:8.2-apache
 
 ENV WEBROOT=/var/www/html \
     INDEXFILE=index.html \
-    STYLEFILE=style.css
+    STYLEFILE=style.css \
+    SCRIPTFILE=script.js \
+    IMAGESFOLDER=./images/
 
-COPY ./content/${INDEXFILE} ${WEBROOT}
+COPY ./content/* ${WEBROOT}
+COPY ./content/images/* ${WEBROOT}/images/
 
 WORKDIR ${WEBROOT}
 

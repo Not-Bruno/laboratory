@@ -89,7 +89,7 @@ config_controller() {
 
 # Mainfunction
 main_menu() {
-    chmod +x ./components/laboratory_start ./components/laboratory_stop ./components/laboratory_setup ./custom/builder ./components/config_controller
+    chmod +x ./components/laboratory_start ./components/laboratory_stop ./components/laboratory_setup ./laboratory-image/builder ./components/config_controller
     while true; do
         show_menu
         read -p "Enter your choice [1-5]: " choice

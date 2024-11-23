@@ -109,7 +109,7 @@ install_dependencies() {
 #############################
 
 build_custom_image() {
-    local bulder_file="./custom/builder"
+    local bulder_file="./laboratory-image/builder"
     print_msg "$BLUE" ">> Execute builder"
 
     # check if file exists
