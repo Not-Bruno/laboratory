@@ -1,0 +1,20 @@
+{
+    "de": {
+        "home": "Home",
+        "features": "Features",
+        "community": "Community",
+        "contact": "Kontakt",
+        "welcome": "Willkommen bei OpenLab",
+        "description": "Ein kostenloses Open Source Projekt für dein Docker-basiertes Pentest Labor.",
+        "learnMore": "Erfahre mehr"
+    },
+    "en": {
+        "home": "Home",
+        "features": "Features",
+        "community": "Community",
+        "contact": "Contact",
+        "welcome": "Welcome to OpenLab",
+        "description": "A free open-source project for your Docker-based pentest lab.",
+        "learnMore": "Learn more"
+    }
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="OpenLab: Ein Open-Source-Tool für Docker-basierte Pentest-Labore. Erstelle und verwalte deine eigene Umgebung modular und effizient.">
+    <title>OpenLab - Dein Docker-basiertes Pentest Labor</title>
+    <link rel="icon" type="image/x-icon" href="./images/header-image.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header-Bereich -->
+    <header>
+        <nav aria-label="Hauptnavigation">
+            <div class="logo">OpenLab</div>
+            <ul class="nav-links">
+                <li><a href="#home" data-key="home">Home</a></li>
+                <li><a href="#features" data-key="features">Features</a></li>
+                <li><a href="#community" data-key="community">Community</a></li>
+                <li><a href="#contact" data-key="contact">Kontakt</a></li>
+            </ul>
+            <!-- Sprachumschalter -->
+            <select id="language-switcher">
+                <option value="de">Deutsch</option>
+                <option value="en">English</option>
+            </select>
+        </nav>
+    </header>
+
+    <!-- Hero-Bereich -->
+    <section id="home">
+        <div class="hero">
+            <img src="images/header-image.jpg" alt="Header-Bild mit abstraktem Technologie-Design" class="hero-image" loading="lazy">
+            <h1 data-key="welcome">Willkommen bei OpenLab</h1>
+            <p data-key="description">Ein kostenloses Open Source Projekt für dein Docker-basiertes Pentest Labor.</p>
+            <a href="#features" class="cta" data-key="learnMore">Erfahre mehr</a>
+        </div>
+    </section>
+
+    <!-- Features-Bereich -->
+    <section id="features" class="features">
+        <h2>Warum OpenLab?</h2>
+        <div class="feature-cards">
+            <div class="card">
+                <img src="images/docker-logo.png" alt="Docker Logo" class="card-image" loading="lazy">
+                <h3>Docker-basiertes Labor</h3>
+                <p>Erstelle und verwalte deine Pentest-Umgebung modular mit Docker-Containern.</p>
+            </div>
+            <div class="card">
+                <img src="images/container-image.png" alt="Container Symbol" class="card-image" loading="lazy">
+                <h3>Vorkonfigurierte Container</h3>
+                <p>Nutze Container wie Metasploit, OWASP Juice Shop, DVWA oder Windows-Systeme für deine Tests.</p>
+            </div>
+            <div class="card">
+                <img src="images/terminal-image.png" alt="Terminal Interface" class="card-image" loading="lazy">
+                <h3>Terminal-Interface</h3>
+                <p>Aktiviere oder deaktiviere Container direkt über unser intuitives Terminalinterface.</p>
+            </div>
+            <div class="card">
+                <img src="images/customization.png" alt="Customization Symbol" class="card-image" loading="lazy">
+                <h3>Anpassbare Umgebung</h3>
+                <p>Füge eigene <code>docker-compose</code>-Container hinzu und erweitere dein Labor individuell.</p>
+            </div>
+        </div>
+        <h3 class="supported-systems-heading">Unterstützte Systeme</h3>
+        <ul class="supported-systems">
+            <li>Arch Linux</li>
+            <li>Ubuntu/Debian-basierte Systeme</li>
+            <li>Fedora</li>
+            <li>Alpine Linux</li>
+        </ul>
+    </section>
+
+    <!-- Community-Bereich -->
+    <section id="community" class="community">
+        <h2>Ein Projekt für die Community</h2>
+        <img src="images/community.jpg" alt="Community-Mitglieder arbeiten zusammen" class="community-image" loading="lazy">
+        <p>OpenLab ist mehr als nur ein Tool – es ist eine Plattform für Lernende, Profis und Enthusiasten, um gemeinsam Hacking-Skills zu trainieren und neue Exploits zu testen. Aktuell befindet sich das Projekt in der Beta-Phase und wird aktiv weiterentwickelt. Wir laden dich ein, Teil der Reise zu werden.</p>
+        <a href="https://github.com/OpenSecLab" target="_blank" class="cta">Tritt der Community bei</a>
+    </section>
+
+    <!-- Kontaktbereich -->
+    <section id="contact" class="contact">
+        <h2>Kontakt</h2>
+        <img src="images/contact-support.jpg" alt="Kontakt-Support-Team" class="contact-image" loading="lazy">
+        <p>Hast du Feedback, Fragen oder Vorschläge? Wir würden uns freuen, von dir zu hören!</p>
+        <form id="contact-form" aria-label="Kontaktformular">
+            <input type="text" name="name" placeholder="Dein Name" required>
+            <input type="email" name="email" placeholder="Deine E-Mail" required>
+            <textarea name="message" placeholder="Deine Nachricht" required></textarea>
+            <button type="submit">Nachricht senden</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 OpenLab. Open Source für dein Pentest-Labor.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
