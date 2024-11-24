@@ -54,28 +54,28 @@ const translations = {
         toTheProjectButton: "Zum Projekt",
     },
     en: {
-        developmentNote: "🚧 Dieses Projekt befindet sich aktuell in der Entwicklung 🚧",
+        developmentNote: "🚧 This project is currently under development 🚧",
         home: "Home",
         features: "Features",
         community: "Community",
         contact: "Contact",
-        contactText: "Hast du Feedback, Fragen oder Vorschläge? Wir würden uns freuen, von dir zu hören!",
+        contactText: "Do you have any feedback, questions or suggestions? We would love to hear from you!",
         submitText: "Send message",
         welcome: "Welcome to Cyberbear Lab",
         shortdescription: "A free open-source project for your Docker-based pentest lab.",
         learnMore: "Learn more",
         titelFeature: "What is Cyberbear Lab?",
-        featurecardTitel01: "Docker-basiertes Labor",
-        featurecardText01: "Erstelle und verwalte deine Pentest-Umgebung modular mit Docker-Containern.",
-        featurecardTitel02: "Vorkonfigurierte Container",
-        featurecardText02: "Nutze Container wie Metasploit, OWASP Juice Shop, DVWA oder Windows-Systeme für deine Tests.",
+        featurecardTitel01: "Docker-based Labor",
+        featurecardText01: "Create and manage your pentest environment modularly with Docker containers.",
+        featurecardTitel02: "Preconfigured containers",
+        featurecardText02: "Use containers such as Metasploit, OWASP Juice Shop, DVWA or Windows systems for your tests.",
         featurecardTitel03: "Terminal-Interface",
-        featurecardText03: "Aktiviere oder deaktiviere Container direkt über unser intuitives Terminalinterface.",
-        featurecardTitel04: "Anpassbare Umgebung",
-        featurecardText04: "Füge eigene docker-compose-Container hinzu und erweitere dein Labor individuell.",
+        featurecardText03: "Activate or deactivate containers directly via our intuitive terminal interface.",
+        featurecardTitel04: "Customizable environment",
+        featurecardText04: "Add your own docker-compose containers and expand your lab individually.",
         supportedSystems: "Supported Systems",
         projectAbout: "About the Project",
-        projecDescription: "Cyberbear Lab ist mehr als nur ein Tool – es ist eine Plattform für Lernende, Profis und Enthusiasten, um gemeinsam Hacking-Skills zu trainieren und neue Exploits zu testen. Aktuell befindet sich das Projekt in der Beta-Phase und wird aktiv weiterentwickelt. Wir laden dich ein, Teil der Reise zu werden.",
+        projecDescription: "Cyberbear Lab is more than just a tool - it is a platform for learners, professionals and enthusiasts to train hacking skills and test new exploits together. The project is currently in the beta phase and is being actively developed. We invite you to become part of the journey.",
         toTheProjectButton: "To the Project",
     },
 };
@@ -94,7 +94,7 @@ document.getElementById("language-switcher").addEventListener("change", function
 });
 
 // Standardmäßig Sprache anwenden
-const lang = localStorage.getItem('language') || 'de';
+const lang = localStorage.getItem('language') || 'en';
 document.getElementById("language-switcher").value = lang;
 setLanguage(lang);
 
