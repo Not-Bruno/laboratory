@@ -29,22 +29,54 @@ document.querySelectorAll('.fade-in, .slide-in, .zoom-in').forEach((el) => {
 // Sprachumschaltung
 const translations = {
     de: {
+        developmentNote: "🚧 Dieses Projekt befindet sich aktuell in der Entwicklung 🚧",
         home: "Home",
         features: "Features",
         community: "Community",
         contact: "Kontakt",
-        welcome: "Willkommen bei OpenLab",
-        description: "Ein kostenloses Open Source Projekt für dein Docker-basiertes Pentest Labor.",
-        learnMore: "Erfahre mehr",
+        contactText: "Hast du Feedback, Fragen oder Vorschläge? Wir würden uns freuen, von dir zu hören!",
+        submitText: "Nachricht senden",
+        welcome: "Willkommen bei CyberLab",
+        shortdescription: "Ein kostenloses Open Source Projekt für dein Docker-basiertes Pentest Labor.",
+        learnMore: " Entdecke mehr",
+        titelFeature: "Warum CyberLab?",
+        featurecardTitel01: "Docker-basiertes Labor",
+        featurecardText01: "Erstelle und verwalte deine Pentest-Umgebung modular mit Docker-Containern.",
+        featurecardTitel02: "Vorkonfigurierte Container",
+        featurecardText02: "Nutze Container wie Metasploit, OWASP Juice Shop, DVWA oder Windows-Systeme für deine Tests.",
+        featurecardTitel03: "Terminal-Interface",
+        featurecardText03: "Aktiviere oder deaktiviere Container direkt über unser intuitives Terminalinterface.",
+        featurecardTitel04: "Anpassbare Umgebung",
+        featurecardText04: "Füge eigene docker-compose-Container hinzu und erweitere dein Labor individuell.",
+        supportedSystems: "Unterstützte Systeme",
+        projectAbout: "Mehr zum Project",
+        projecDescription: "CyberLab ist mehr als nur ein Tool – es ist eine Plattform für Lernende, Profis und Enthusiasten, um gemeinsam Hacking-Skills zu trainieren und neue Exploits zu testen. Aktuell befindet sich das Projekt in der Beta-Phase und wird aktiv weiterentwickelt. Wir laden dich ein, Teil der Reise zu werden.",
+        toTheProjectButton: "Zum Projekt",
     },
     en: {
+        developmentNote: "🚧 Dieses Projekt befindet sich aktuell in der Entwicklung 🚧",
         home: "Home",
         features: "Features",
         community: "Community",
         contact: "Contact",
-        welcome: "Welcome to OpenLab",
-        description: "A free open-source project for your Docker-based pentest lab.",
+        contactText: "Hast du Feedback, Fragen oder Vorschläge? Wir würden uns freuen, von dir zu hören!",
+        submitText: "Send message",
+        welcome: "Welcome to CyberLab",
+        shortdescription: "A free open-source project for your Docker-based pentest lab.",
         learnMore: "Learn more",
+        titelFeature: "Why CyberLab?",
+        featurecardTitel01: "Docker-basiertes Labor",
+        featurecardText01: "Erstelle und verwalte deine Pentest-Umgebung modular mit Docker-Containern.",
+        featurecardTitel02: "Vorkonfigurierte Container",
+        featurecardText02: "Nutze Container wie Metasploit, OWASP Juice Shop, DVWA oder Windows-Systeme für deine Tests.",
+        featurecardTitel03: "Terminal-Interface",
+        featurecardText03: "Aktiviere oder deaktiviere Container direkt über unser intuitives Terminalinterface.",
+        featurecardTitel04: "Anpassbare Umgebung",
+        featurecardText04: "Füge eigene docker-compose-Container hinzu und erweitere dein Labor individuell.",
+        supportedSystems: "Supported Systems",
+        projectAbout: "About the Project",
+        projecDescription: "CyberLab ist mehr als nur ein Tool – es ist eine Plattform für Lernende, Profis und Enthusiasten, um gemeinsam Hacking-Skills zu trainieren und neue Exploits zu testen. Aktuell befindet sich das Projekt in der Beta-Phase und wird aktiv weiterentwickelt. Wir laden dich ein, Teil der Reise zu werden.",
+        toTheProjectButton: "To the Project",
     },
 };
 
@@ -65,3 +97,25 @@ document.getElementById("language-switcher").addEventListener("change", function
 const lang = localStorage.getItem('language') || 'de';
 document.getElementById("language-switcher").value = lang;
 setLanguage(lang);
+
+// Schneeflocken erzeugen
+function createSnowflake() {
+    const snowflake = document.createElement('div');
+    snowflake.classList.add('snowflake');
+    const symbols = ["❄", "✨", "🎄", "⛄"];
+    snowflake.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+    // snowflake.textContent = '❄'; // Du kannst hier andere Symbole verwenden, z.B. ★
+    snowflake.style.left = Math.random() * 100 + 'vw'; // Zufällige horizontale Position
+    snowflake.style.animationDuration = Math.random() * 3 + 2 + 's'; // Unterschiedliche Fallgeschwindigkeit
+    snowflake.style.opacity = Math.random(); // Unterschiedliche Transparenz
+    document.body.appendChild(snowflake);
+
+    // Entferne die Schneeflocke nach der Animation
+    setTimeout(() => {
+        snowflake.remove();
+    }, 5000);
+}
+
+// Alle 200ms eine neue Schneeflocke hinzufügen
+setInterval(createSnowflake, 200);
+
