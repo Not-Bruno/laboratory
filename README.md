@@ -1,7 +1,3 @@
-
-![Logo](https://blog.tryhackme.com/content/images/2023/03/Content-Banner---updated.png)
-
-
 # Pentesting Laboratory
 
 #### << -- WORK IN PROGRES -- >>
