@@ -38,7 +38,7 @@ install_project() {
     # Zielverzeichnis und URL
     INSTALL_DIR="/opt/laboratory"
     BIN_PATH="/usr/local/bin/laboratory"
-    DOWNLOAD_URL="https://github.com/The-Cyberbear/laboratory/blob/main/beta_release_v0.0.1.zip"
+    DOWNLOAD_URL="https://release.cyberbear.me/laboratory/beta_release_v0.0.1.zip"
     TEMP_ZIP="/tmp/laboratory.zip"
 
     # Überprüfen, ob `wget` oder `curl` verfügbar ist
