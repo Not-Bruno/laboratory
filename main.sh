@@ -43,11 +43,10 @@ show_menu() {
     print_msg "$YELLOW" "           Welcome to the Laboratory                 "
     print_msg "$BLUE" "======================================================="
     print_msg "$YELLOW" " > Please choose an option:"
-    print_msg "$GREEN" "    1) Setup project - (run first)"
-    print_msg "$GREEN" "    2) Start Laboratory"
-    print_msg "$GREEN" "    3) Stop Laboratory"
-    print_msg "$GREEN" "    4) Load Config controlller"
-    print_msg "$GREEN" "    5) Exit Laboratory"
+    print_msg "$GREEN" "    1) Start Laboratory"
+    print_msg "$GREEN" "    2) Stop Laboratory"
+    print_msg "$GREEN" "    3) Load Config controlller"
+    print_msg "$GREEN" "    4) Exit Laboratory"
     print_msg "$BLUE" "======================================================="
 }
 
@@ -95,11 +94,10 @@ main_menu() {
         read -p "Enter your choice [1-5]: " choice
         echo " "
         case $choice in
-        1) setup_call ;;
-        2) start_call ;;
-        3) stop_call ;;
-        4) config_controller ;;
-        5)
+        1) start_call ;;
+        2) stop_call ;;
+        3) config_controller ;;
+        4)
             print_msg "$RED" "Exiting the Laboratory. Goodbye!"
             break
             ;;
