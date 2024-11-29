@@ -27,7 +27,7 @@ show_configuration() {
         exit 1
     fi
 
-    local config_file="./components/configuration.yaml"
+    local config_file="./source/configuration.yaml"
 
     if [ -f "$config_file" ]; then
         print_msg "$BLUE" ">> Showing content of $config_file:"

@@ -52,44 +52,44 @@ show_menu() {
 }
 
 setup_call() {
-    if [ ! -f "./components/laboratory_setup" ]; then
+    if [ ! -f "./source/laboratory_setup" ]; then
         print_msg "$RED" ">> Setup file not found"
         exit 1
     fi
-    ./components/laboratory_setup
+    ./source/laboratory_setup
     read -p "Press Enter to return to the menu."
 }
 
 start_call() {
-    if [ ! -f "./components/laboratory_start" ]; then
+    if [ ! -f "./source/laboratory_start" ]; then
         print_msg "$RED" ">> Start file not found"
         exit 1
     fi
-    ./components/laboratory_start
+    ./source/laboratory_start
     read -p "Press Enter to return to the menu."
 }
 
 stop_call() {
-    if [ ! -f "./components/laboratory_stop" ]; then
+    if [ ! -f "./source/laboratory_stop" ]; then
         print_msg "$RED" ">> Stop file not found"
         exit 1
     fi
-    ./components/laboratory_stop
+    ./source/laboratory_stop
     read -p "Press Enter to return to the menu."
 }
 
 config_controller() {
-    if [ ! -f "./components/config_controller" ]; then
+    if [ ! -f "./source/config_controller" ]; then
         print_msg "$RED" ">> Stop file not found"
         exit 1
     fi
-    ./components/config_controller
+    ./source/config_controller
     read -p "Press Enter to return to the menu."
 }
 
 # Mainfunction
 main_menu() {
-    chmod +x ./components/laboratory_start ./components/laboratory_stop ./components/laboratory_setup ./laboratory-image/builder ./components/config_controller
+    chmod +x ./source/laboratory_start ./source/laboratory_stop ./source/laboratory_setup ./laboratory-image/builder ./source/config_controller
     while true; do
         show_menu
         read -p "Enter your choice [1-5]: " choice

@@ -22,62 +22,65 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 #####################################
-# Stop Docker Containers            #
+# Setup Docker Containers           #
 #####################################
-stop_containers() {
-    local config_file="./components/configuration.yaml"
-    print_msg "$BLUE" ">> Stopping environment..."
+start_containers() {
+    local config_file="./source/configuration.yaml"
+    print_msg "$BLUE" ">> Starting environment..."
 
-    # Prüfen, ob die Konfigurationsdatei existiert
+    # Check if file exists
     if [ ! -f "$config_file" ]; then
         print_msg "$RED" ">> Error: Configuration file not found at $config_file."
         exit 1
     fi
 
-    # Prüfen, ob yq installiert ist
-    if ! command -v yq &>/dev/null; then
+    # Check for yq installation
+    if [ ! command -v yq ] &>/dev/null; then
         print_msg "$RED" ">> Error: yq is not installed. Please run 'setup' and try again."
         exit 1
     fi
 
-    # Alle Dienste aus der YAML-Konfiguration auslesen
+    # start basecomponent
+    print_msg "$GREEN" " > Start base component"
+    if [ -f docker/basecomponent.docker-compose.yml ]; then
+        docker-compose -f docker/basecomponent.docker-compose.yml up -d || {
+            print_msg "$RED" ">> Error starting base component. Please check the logs."
+        }
+    else
+        print_msg "$YELLOW" ">> Warning: Base component configuration file not found. Skipping..."
+        exit 1
+    fi
+
+    # Loop through all services in the configuration.yaml
     local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
     for service in $services; do
         local enabled=$(yq eval ".services.${service}.enabled" "$config_file")
         local compose_file=$(yq eval ".services.${service}.compose_file" "$config_file")
+        local port=$(yq eval ".services.${service}.port" "$config_file")
 
         if [[ "$enabled" == "yes" ]]; then
             if [ -f "docker/$compose_file" ]; then
-                print_msg "$GREEN" "   -> Stopping $service"
-                docker-compose -f "docker/$compose_file" down --remove-orphans || {
-                    print_msg "$RED" "   -> Error stopping $service. Please check the logs."
-                }
+                print_msg "$GREEN" "   -> Starting $service"
+                docker-compose -f "docker/$compose_file" up -d
+                print_msg "$BLUE" "[>] Access $service -> http://localhost:$port"
             else
-                print_msg "$YELLOW" "   -> Warning: Docker Compose file for $service not found. Skipping..."
+                print_msg "$YELLOW" "   -> Warning: Docker Compose file for $service not found. Skipping $service"
             fi
         else
             print_msg "$RED" "   -> Skipping $service"
         fi
     done
 
-    # Basiskomponente stoppen
-    if [ -f docker/basecomponent.docker-compose.yml ]; then
-        docker-compose -f docker/basecomponent.docker-compose.yml down --remove-orphans || {
-            print_msg "$RED" ">> Error stopping base component. Please check the logs."
-        }
-    else
-        print_msg "$YELLOW" ">> Warning: Base component configuration file not found. Skipping..."
-    fi
-
-    print_msg "$GREEN" ">> Environment stopped successfully."
+    print_msg "$GREEN" ">> Environment started successfully."
 }
-
 
 #################################
 # Main script execution         #
 #################################
 main() {
-    stop_containers
+    start_containers
 }
 
 main # entrypoint
+
+# CREATED BY Bruno

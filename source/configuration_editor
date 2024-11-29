@@ -22,7 +22,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 edit_configuration() {
-    local config_file="./components/configuration.yaml"
+    local config_file="./source/configuration.yaml"
 
     # Überprüfen, ob die Datei existiert
     if [ ! -f "$config_file" ]; then
