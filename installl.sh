@@ -1,4 +1,5 @@
 #!/bin/bash
+# CREATED BY Bruno
 
 # Farben für Nachrichten
 GREEN='\033[0;32m'
@@ -10,6 +11,14 @@ NC='\033[0m'
 print_msg() {
     echo -e "${1}${2}${NC}"
 }
+
+#############################
+# Check if executed as root #
+#############################
+if [ "$(id -u)" -ne 0 ]; then
+    print_msg "$RED" ">> This script must be run as root or root privileges."
+    exit 1
+fi
 
 # Funktion zum Überprüfen, ob ein Tool installiert ist
 check_dependencies() {
@@ -79,10 +88,123 @@ install_project() {
     print_msg "$GREEN" ">> You can now run the project with the command: laboratory"
 }
 
+######################################################
+# Get Linux-Distro-Informations from /etc/os-release #
+######################################################
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    case "$ID" in
+    kali | parrot)
+        print_msg "$RED" ">> This script does not support $ID Linux. Exiting..."
+        exit 1
+        ;;
+    *)
+        print_msg "$BLUE" ">> Detected Linux distribution: $ID"
+        ;;
+    esac
+else
+    print_msg "$RED" ">> Error: /etc/os-release not found. Unable to determine the Linux distribution."
+    exit 1
+fi
+
+#####################################
+# Detect package manager function   #
+#####################################
+detect_package_manager() {
+    for manager in apt pacman dnf yum zypper apk; do
+        if command -v "$manager" >/dev/null 2>&1; then
+            echo "$manager"
+            return
+        fi
+    done
+    print_msg "$RED" ">> Unknown package manager. Exiting..."
+    exit 1
+}
+
+#################################################
+# Install Docker, Compose, Python3, Pip, and yq #
+#################################################
+install_dependencies() {
+    local package_manager="$1"
+
+    print_msg "$BLUE" ">> Installing Docker, Compose, Python3, Pip, and yq with $package_manager"
+
+    case "$package_manager" in
+    apt)
+        apt update && apt install -y docker.io docker-compose python3 python3-pip curl
+        # Install yq (yq is not typically available in apt by default, so using the recommended installation method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
+        ;;
+    pacman)
+        pacman -Suy --noconfirm && pacman -S --noconfirm docker docker-compose python python-pip curl
+        # Install yq (using the pacman package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
+        ;;
+    dnf)
+        dnf install -y docker-ce docker-compose python3 python3-pip curl
+        # Install yq (using the dnf package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
+        ;;
+    zypper)
+        zypper install -y docker docker-compose python3 python3-pip curl
+        # Install yq (using the zypper package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
+        ;;
+    apk)
+        apk add --no-cache docker docker-compose python3 py3-pip curl
+        # Install yq (using the apk package manager or curl method)
+        curl -sL https://github.com/mikefarah/yq/releases/download/v4.24.5/yq_linux_amd64 -o /usr/local/bin/yq
+        chmod +x /usr/local/bin/yq
+        rc-update add docker default && /etc/init.d/docker start
+        ;;
+    *)
+        print_msg "$RED" ">> Unsupported package manager: $package_manager"
+        exit 1
+        ;;
+    esac
+
+    systemctl start docker.service || service docker start
+    print_msg "$GREEN" ">> Docker, Compose, Python3, Pip, and yq installed successfully."
+}
+
+#############################
+#   Build custom Baseimage  #
+#############################
+
+build_custom_image() {
+    local bulder_file="./laboratory-image/builder"
+    print_msg "$BLUE" ">> Execute builder"
+
+    # check if file exists
+    if [ ! -f "$bulder_file" ]; then
+        print_msg "$RED" ">> Error: Builder script not found."
+        exit 1
+    fi
+
+    # execute and check for success
+    if $bulder_file; then
+        print_msg "$GREEN" ">> Build finished successfully."
+    else
+        print_msg "$RED" ">> Error: Build process failed."
+        exit 1
+    fi
+}
+
 # Hauptausführung
 main() {
     check_dependencies
     install_project
+    #Setup Project
+    local package_manager
+    package_manager=$(detect_package_manager)
+    install_dependencies "$package_manager"
+    build_custom_image
 }
 
 main
+
+# CREATED BY Bruno
