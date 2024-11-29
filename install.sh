@@ -12,14 +12,6 @@ print_msg() {
     echo -e "${1}${2}${NC}"
 }
 
-#############################
-# Check if executed as root #
-#############################
-if [ "$(id -u)" -ne 0 ]; then
-    print_msg "$RED" ">> This script must be run as root or root privileges."
-    exit 1
-fi
-
 # Funktion zum Überprüfen, ob ein Tool installiert ist
 check_dependencies() {
     print_msg "$BLUE" ">> Checking dependencies..."
@@ -36,7 +28,7 @@ check_dependencies() {
         print_msg "$RED" ">> Please install them using your package manager and try again."
         exit 1
     fi
-    print_msg "$GREEN" ">> All needed dependencies are installed."
+    print_msg "$GREEN" ">> All dependencies are installed."
 }
 
 # Installationsfunktion
@@ -46,7 +38,7 @@ install_project() {
     # Zielverzeichnis und URL
     INSTALL_DIR="/opt/laboratory"
     BIN_PATH="/usr/local/bin/laboratory"
-    DOWNLOAD_URL="https://github.com/The-Cyberbear/laboratory/blob/main/beta_release_v0.0.1.zip"
+    DOWNLOAD_URL="https://github.com/The-Cyberlab/beta_release_v0.0.1.zip"
     TEMP_ZIP="/tmp/laboratory.zip"
 
     # Überprüfen, ob `wget` oder `curl` verfügbar ist
@@ -62,9 +54,15 @@ install_project() {
     # Dateien herunterladen
     print_msg "$BLUE" ">> Downloading project files from $DOWNLOAD_URL..."
     $DOWNLOADER "$TEMP_ZIP" "$DOWNLOAD_URL" || {
-        print_msg "$RED" ">> Error: Failed to download project files."
+        print_msg "$RED" ">> Error: Failed to download project files. Please check your internet connection or the URL."
         exit 1
     }
+
+    # Überprüfen, ob die Datei leer ist
+    if [ ! -s "$TEMP_ZIP" ]; then
+        print_msg "$RED" ">> Error: Downloaded file is empty or invalid."
+        exit 1
+    fi
 
     # Entpacken
     print_msg "$BLUE" ">> Extracting project files..."
@@ -87,6 +85,7 @@ install_project() {
     print_msg "$GREEN" ">> Laboratory installed successfully!"
     print_msg "$GREEN" ">> You can now run the project with the command: laboratory"
 }
+
 
 ######################################################
 # Get Linux-Distro-Informations from /etc/os-release #
