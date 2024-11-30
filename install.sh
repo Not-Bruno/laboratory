@@ -1,6 +1,8 @@
 #!/bin/bash
 # CREATED BY Bruno
 
+# --> SECTION 0 <-- #
+
 # Farben für Nachrichten
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -11,6 +13,8 @@ NC='\033[0m'
 print_msg() {
     echo -e "${1}${2}${NC}"
 }
+
+# --> SECTION 1 <-- #
 
 # Funktion zum Überprüfen, ob ein Tool installiert ist
 check_dependencies() {
@@ -36,9 +40,10 @@ install_project() {
     print_msg "$GREEN" ">> Installing Laboratory Project..."
 
     # Zielverzeichnis und URL
+    ZIP_FILE="beta_release_v0.0.1.zip"
     INSTALL_DIR="/opt/laboratory"
     BIN_PATH="/usr/local/bin/laboratory"
-    DOWNLOAD_URL="https://release.cyberbear.me/laboratory/beta_release_v0.0.1.zip"
+    DOWNLOAD_URL="https://release.cyberbear.me/laboratory/$ZIP_FILE"
     TEMP_ZIP="/tmp/laboratory.zip"
 
     # Überprüfen, ob `wget` oder `curl` verfügbar ist
@@ -81,15 +86,12 @@ install_project() {
         print_msg "$RED" ">> Error: main.sh not found in $INSTALL_DIR."
         exit 1
     fi
-
-    print_msg "$GREEN" ">> Laboratory installed successfully!"
-    print_msg "$GREEN" ">> You can now run the project with the command: laboratory"
 }
 
 
-######################################################
+# --> SECTION 2 <-- #
+
 # Get Linux-Distro-Informations from /etc/os-release #
-######################################################
 if [ -f /etc/os-release ]; then
     . /etc/os-release
     case "$ID" in
@@ -106,9 +108,8 @@ else
     exit 1
 fi
 
-#####################################
-# Detect package manager function   #
-#####################################
+
+# Detect package manager function
 detect_package_manager() {
     for manager in apt pacman dnf yum zypper apk; do
         if command -v "$manager" >/dev/null 2>&1; then
@@ -120,9 +121,8 @@ detect_package_manager() {
     exit 1
 }
 
-#################################################
-# Install Docker, Compose, Python3, Pip, and yq #
-#################################################
+
+# Install Docker, Compose, Python3, Pip, and yq
 install_dependencies() {
     local package_manager="$1"
 
@@ -170,10 +170,8 @@ install_dependencies() {
     print_msg "$GREEN" ">> Docker, Compose, Python3, Pip, and yq installed successfully."
 }
 
-#############################
-#   Build custom Baseimage  #
-#############################
 
+#   Build custom Baseimage 
 build_custom_image() {
     local bulder_file="./laboratory-image/builder"
     print_msg "$BLUE" ">> Execute builder"
@@ -201,7 +199,10 @@ main() {
     local package_manager
     package_manager=$(detect_package_manager)
     install_dependencies "$package_manager"
-    build_custom_image
+    #build_custom_image
+
+    print_msg "$GREEN" ">> Laboratory installed successfully!"
+    print_msg "$GREEN" ">> You can now run the project with the command: laboratory"
 }
 
 main
