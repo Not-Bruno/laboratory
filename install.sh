@@ -17,6 +17,7 @@ print_msg() {
 # --> SECTION 1 <-- #
 
 # Funktion zum Überprüfen, ob ein Tool installiert ist
+
 check_dependencies() {
     print_msg "$BLUE" ">> Checking dependencies..."
     MISSING_TOOLS=()
@@ -35,57 +36,49 @@ check_dependencies() {
     print_msg "$GREEN" ">> All dependencies are installed."
 }
 
-# Installationsfunktion
 install_project() {
     print_msg "$GREEN" ">> Installing Laboratory Project..."
-
-    # Zielverzeichnis und URL
     ZIP_FILE="beta_release_v0.0.1.zip"
     INSTALL_DIR="/opt/laboratory"
     BIN_PATH="/usr/local/bin/laboratory"
     DOWNLOAD_URL="https://release.cyberbear.me/laboratory/$ZIP_FILE"
     TEMP_ZIP="/tmp/laboratory.zip"
 
-    # Überprüfen, ob `wget` oder `curl` verfügbar ist
     if command -v wget &>/dev/null; then
         DOWNLOADER="wget -qO"
     elif command -v curl &>/dev/null; then
         DOWNLOADER="curl -sL -o"
     else
-        print_msg "$RED" ">> Error: Neither wget nor curl is installed. Please install one of them and try again."
+        print_msg "$RED" ">> Error: Neither wget nor curl is installed."
         exit 1
     fi
 
-    # Dateien herunterladen
     print_msg "$BLUE" ">> Downloading project files from $DOWNLOAD_URL..."
     $DOWNLOADER "$TEMP_ZIP" "$DOWNLOAD_URL" || {
-        print_msg "$RED" ">> Error: Failed to download project files. Please check your internet connection or the URL."
+        print_msg "$RED" ">> Error: Failed to download project files or file is empty."
         exit 1
     }
 
-    # Überprüfen, ob die Datei leer ist
     if [ ! -s "$TEMP_ZIP" ]; then
-        print_msg "$RED" ">> Error: Downloaded file is empty or invalid."
+        print_msg "$RED" ">> Error: Downloaded file is empty."
         exit 1
     fi
 
-    # Entpacken
     print_msg "$BLUE" ">> Extracting project files..."
     sudo mkdir -p "$INSTALL_DIR"
     sudo unzip -qo "$TEMP_ZIP" -d "$INSTALL_DIR" || {
-        print_msg "$RED" ">> Error: Failed to extract project files."
+        print_msg "$RED" ">> Error: Extraction failed."
         exit 1
     }
     sudo rm -f "$TEMP_ZIP"
 
-    # Skript ausführbar machen und Symlink erstellen
-    if [ -f "$INSTALL_DIR/main.sh" ]; then
-        sudo chmod +x "$INSTALL_DIR/main.sh"
-        sudo ln -sf "$INSTALL_DIR/main.sh" "$BIN_PATH"
-    else
-        print_msg "$RED" ">> Error: main.sh not found in $INSTALL_DIR."
+    if [ ! -f "$INSTALL_DIR/main.sh" ]; then
+        print_msg "$RED" ">> Error: main.sh not found."
         exit 1
     fi
+
+    sudo chmod +x "$INSTALL_DIR/main.sh"
+    sudo ln -sf "$INSTALL_DIR/main.sh" "$BIN_PATH"
 }
 
 
