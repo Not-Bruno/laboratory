@@ -1,15 +1,18 @@
 # Configfile for Laboratory
 # !!NOTE please dont change ports
-
 services:
   metasploitable:
     enabled: "yes"
     compose_file: "metasploitable.docker-compose.yml"
     port: "?"
   juice-shop:
-    enabled: "yes"
+    enabled: "no"
     compose_file: "juice-shop.docker-compose.yml"
     port: "3000"
+  dvwa:
+    enabled: "no"
+    compose_file: "dvwa.docker-compose.yml"
+    port: "3010"
   windows11:
     enabled: "no"
     compose_file: "windows11.docker-compose.yml"

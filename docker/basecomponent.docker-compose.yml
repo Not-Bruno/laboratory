@@ -1,6 +1,7 @@
 services:
   webserver:
-    image: "laboratory"
+    # image: "laboratory" -- In Progress
+    image: "httpd"
     container_name: "Webserver"
     ports:
       - '80:80'

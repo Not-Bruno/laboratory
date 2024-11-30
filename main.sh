@@ -1,7 +1,7 @@
 #!/bin/bash
 # CREATED BY Bruno
 
-# Colordefinition for printmessage function
+# Colordefinition
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -91,7 +91,7 @@ main_menu() {
     chmod +x ./source/laboratory_start ./source/laboratory_stop ./source/laboratory_setup ./laboratory-image/builder ./source/config_controller
     while true; do
         show_menu
-        read -p "Enter your choice [1-5]: " choice
+        read -p "Enter your choice [1-4]: " choice
         echo " "
         case $choice in
         1) start_call ;;
