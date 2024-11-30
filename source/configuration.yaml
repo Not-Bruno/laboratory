@@ -1,10 +1,10 @@
 # Configfile for Laboratory
-# !!NOTE please dont change ports
+# !!NOTE: The specified port must match the port specified in the compose file
 services:
   metasploitable:
     enabled: "yes"
     compose_file: "metasploitable.docker-compose.yml"
-    port: "?"
+    port: "NULL"
   juice-shop:
     enabled: "no"
     compose_file: "juice-shop.docker-compose.yml"
