@@ -30,27 +30,31 @@ show_configuration() {
     local config_file="./source/configuration.yaml"
 
     if [ -f "$config_file" ]; then
-        print_msg "$BLUE" ">> Showing content of $config_file:"
-        print_msg "$BLUE" " > Configuration file is located at:$NC $(realpath $config_file)"
-        # Extract services and iterate over them
-        local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
-        local index=0
+    print_msg "$BLUE" ">> Showing content of $config_file:"
+    print_msg "$BLUE" " > Configuration file is located at:$NC $(realpath $config_file)"
+    # Extract services and iterate over them
+    local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+    local index=0
 
-        for service in $services; do
-            local enabled=$(yq eval ".services.\"$service\".enabled" "$config_file")
-            local port=$(yq eval ".services.\"$service\".port" "$config_file")
-            index=$((index + 1))
+    for service in $services; do
+        local enabled=$(yq eval ".services.\"$service\".enabled" "$config_file")
+        local port=$(yq eval ".services.\"$service\".port" "$config_file")
+        index=$((index + 1))
 
-            # Check service status and format output
-            if [ "$enabled" == "yes" ]; then
-                print_msg "$GREEN" "[$index] - $service: aktiv - Port: ${port:-'nicht definiert'}"
+        # Check service status and format output
+        if [ "$enabled" == "yes" ]; then
+            if [ -n "$port" ] && [ "$port" != "NULL" ]; then
+                print_msg "$GREEN" "[$index] - $service: aktiv - Port: $port"
             else
-                print_msg "$RED" "[$index] - $service: inaktiv"
+                print_msg "$GREEN" "[$index] - $service: aktiv"
             fi
-        done
-    else
-        print_msg "$RED" ">> Configuration file not found."
-    fi
+        else
+            print_msg "$RED" "[$index] - $service: inaktiv"
+        fi
+    done
+else
+    print_msg "$RED" ">> Configuration file not found."
+fi
 }
 
 #################################
