@@ -188,7 +188,7 @@ build_custom_image() {
 main() {
     check_dependencies
     install_project
-    #Setup Project
+    # >> Setup Project
     local package_manager
     package_manager=$(detect_package_manager)
     install_dependencies "$package_manager"
