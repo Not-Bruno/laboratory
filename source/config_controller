@@ -1,0 +1,94 @@
+#!/bin/bash
+# CREATED BY Bruno
+
+# Colordefinition for printmessage function
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # Reset Farbe
+
+# Helper function for colored messages
+print_msg() {
+    echo -e "${1}${2}${NC}"
+}
+
+#############################
+# Check if executed as root #
+#############################
+if [ "$(id -u)" -ne 0 ]; then
+    print_msg "$RED" ">> This script must be run as root or root privileges."
+    exit 1
+fi
+
+# ASCII-Art for Menue
+menu_ascii_art() {
+    echo -e "${RED}"
+    echo " _____              __ _                       _             "
+    echo "/  __ \\            / _(_)                     | |            "
+    echo "| /  \\/ ___  _ __ | |_ _  __ _ _   _ _ __ __ _| |_ ___  _ __ "
+    echo "| |    / _ \\| '_ \\|  _| |/ _\` | | | | '__/ _\` | __/ _ \\| '__|"
+    echo "| \\__/\\ (_) | | | | | | | (_| | |_| | | | (_| | || (_) | |   "
+    echo " \\____/\\___/|_| |_|_| |_|\\__, |\\__,_|_|  \\__,_|\\__\\___/|_|   "
+    echo "                          __/ |                              "
+    echo "                         |___/                               "
+    echo -e "${NC}"
+}
+
+# Funktion für das Menü
+show_menu() {
+    clear
+    menu_ascii_art
+    print_msg "$BLUE" "======================================================"
+    print_msg "$YELLOW" "           Configuration Controller                 "
+    print_msg "$BLUE" "======================================================"
+    print_msg "$YELLOW" " > Please choose an option:"
+    print_msg "$GREEN" "    1) Edit Configuration"
+    print_msg "$GREEN" "    2) Show Configuration"
+    print_msg "$GREEN" "    3) Exit Configuration Controller"
+    print_msg "$BLUE" "======================================================="
+}
+
+editor_call() {
+    if [ ! -f "./source/configuration_editor" ]; then
+        print_msg "$RED" ">> Configuration Editor file not found"
+        exit 1
+    fi
+    ./source/configuration_editor
+}
+
+viewer_call() {
+    if [ ! -f "./source/configuration_viewer" ]; then
+        print_msg "$RED" ">> Configuration Viewer file not found"
+        exit 1
+    fi
+    ./source/configuration_viewer
+    read -p "Press Enter to return to the menu."
+}
+
+# Mainfunction
+main_menu() {
+    chmod +x ./source/configuration_editor ./source/configuration_viewer
+    while true; do
+        show_menu
+        read -p "Enter your choice [1-3]: " choice
+        echo " "
+        case $choice in
+        1) editor_call ;;
+        2) viewer_call ;;
+        3)
+            print_msg "$RED" "Exiting the Configuration Controller. Goodbye!"
+            break
+            ;;
+        *)
+            print_msg "$RED" "Invalid choice. Please select a valid option."
+            sleep 2
+            ;;
+        esac
+    done
+}
+
+# Skript starten
+main_menu
+
+# CREATED BY Bruno

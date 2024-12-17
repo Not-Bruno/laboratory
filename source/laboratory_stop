@@ -17,7 +17,7 @@ print_msg() {
 # Check if executed as root #
 #############################
 if [ "$(id -u)" -ne 0 ]; then
-    print_msg "$RED" ">> This script must be run as root."
+    print_msg "$RED" ">> This script must be run as root or root privileges."
     exit 1
 fi
 
@@ -25,7 +25,7 @@ fi
 # Stop Docker Containers            #
 #####################################
 stop_containers() {
-    local config_file="./components/configuration.yaml"
+    local config_file="./source/configuration.yaml"
     print_msg "$BLUE" ">> Stopping environment..."
 
     # Prüfen, ob die Konfigurationsdatei existiert
@@ -40,29 +40,16 @@ stop_containers() {
         exit 1
     fi
 
-    # Dienste aus der YAML-Konfiguration auslesen
-    declare -A services=(
-        ["metasploitable"]=$(yq eval '.services.metasploitable' "$config_file")
-        ["juice-shop"]=$(yq eval '.services.juice-shop' "$config_file")
-        ["windows11"]=$(yq eval '.services.windows11' "$config_file")
-        ["windows7e"]=$(yq eval '.services.windows7e' "$config_file")
-        ["windows2022"]=$(yq eval '.services.windows2022' "$config_file")
-    )
+    # Alle Dienste aus der YAML-Konfiguration auslesen
+    local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+    for service in $services; do
+        local enabled=$(yq eval ".services.${service}.enabled" "$config_file")
+        local compose_file=$(yq eval ".services.${service}.compose_file" "$config_file")
 
-    declare -A compose_files=(
-        ["metasploitable"]="docker/metasploitable.docker-compose.yml"
-        ["juice-shop"]="docker/juice-shop.docker-compose.yml"
-        ["windows11"]="docker/windows11.docker-compose.yml"
-        ["windows7e"]="docker/windows7e.docker-compose.yml"
-        ["windows2022"]="docker/windows2022.docker-compose.yml"
-    )
-
-    # Schleife: Dienste stoppen
-    for service in "${!services[@]}"; do
-        if [[ "${services[$service]}" == "yes" ]]; then
-            if [ -f "${compose_files[$service]}" ]; then
+        if [[ "$enabled" == "yes" ]]; then
+            if [ -f "docker/$compose_file" ]; then
                 print_msg "$GREEN" "   -> Stopping $service"
-                docker-compose -f "${compose_files[$service]}" down --remove-orphans || {
+                docker-compose -f "docker/$compose_file" down --remove-orphans || {
                     print_msg "$RED" "   -> Error stopping $service. Please check the logs."
                 }
             else
@@ -84,6 +71,7 @@ stop_containers() {
 
     print_msg "$GREEN" ">> Environment stopped successfully."
 }
+
 
 #################################
 # Main script execution         #

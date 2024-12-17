@@ -1,0 +1,86 @@
+#!/bin/bash
+# CREATED BY Bruno
+
+# Define colors
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[1;34m'
+NC='\033[0m' # Reset color
+
+# Helper function for colored messages
+print_msg() {
+    echo -e "${1}${2}${NC}"
+}
+
+#############################
+# Check if executed as root #
+#############################
+if [ "$(id -u)" -ne 0 ]; then
+    print_msg "$RED" ">> This script must be run as root or root privileges."
+    exit 1
+fi
+
+#####################################
+# Setup Docker Containers           #
+#####################################
+start_containers() {
+    local config_file="./source/configuration.yaml"
+    print_msg "$BLUE" ">> Starting environment..."
+
+    # Check if file exists
+    if [ ! -f "$config_file" ]; then
+        print_msg "$RED" ">> Error: Configuration file not found at $config_file."
+        exit 1
+    fi
+
+    # Check for yq installation
+    if [ ! command -v yq ] &>/dev/null; then
+        print_msg "$RED" ">> Error: yq is not installed. Please run 'setup' and try again."
+        exit 1
+    fi
+
+    # start basecomponent
+    print_msg "$GREEN" " > Start base component"
+    if [ -f docker/basecomponent.docker-compose.yml ]; then
+        docker-compose -f docker/basecomponent.docker-compose.yml up -d || {
+            print_msg "$RED" ">> Error starting base component. Please check the logs."
+        }
+    else
+        print_msg "$YELLOW" ">> Warning: Base component configuration file not found. Skipping..."
+        exit 1
+    fi
+
+    # Loop through all services in the configuration.yaml
+    local services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
+    for service in $services; do
+        local enabled=$(yq eval ".services.${service}.enabled" "$config_file")
+        local compose_file=$(yq eval ".services.${service}.compose_file" "$config_file")
+        local port=$(yq eval ".services.${service}.port" "$config_file")
+
+        if [[ "$enabled" == "yes" ]]; then
+            if [ -f "docker/$compose_file" ]; then
+                print_msg "$GREEN" "   -> Starting $service"
+                docker-compose -f "docker/$compose_file" up -d
+                print_msg "$BLUE" "[>] Access $service -> http://localhost:$port"
+            else
+                print_msg "$YELLOW" "   -> Warning: Docker Compose file for $service not found. Skipping $service"
+            fi
+        else
+            print_msg "$RED" "   -> Skipping $service"
+        fi
+    done
+
+    print_msg "$GREEN" ">> Environment started successfully."
+}
+
+#################################
+# Main script execution         #
+#################################
+main() {
+    start_containers
+}
+
+main # entrypoint
+
+# CREATED BY Bruno

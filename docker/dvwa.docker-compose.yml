@@ -1,32 +1,13 @@
 # CREATED BY Bruno Scholz 
 services:
 
-# Windows 11
-# reference: https://github.com/dockur/windows
-  windows2022:
-    image: "dockurr/windows"
-    container_name: "WindowsServer2022"
-    environment:
-      - "VERSION=11"
-      - "DISK_SIZE=256G"
-      - "RAM_SIZE=8G"
-      - "CPU_CORES=4"
-      - "REGION=de-DE"
-      - "KEYBOARD=de-DE"
-      - "LANGUAGE=German"
-    devices:
-      - "/dev/kvm"
-#    volumes:
-#      - "windows_storage:/storage"
-#      - "windows_share:/data"
-    cap_add:
-      - "NET_ADMIN"
-      - "NET_RAW"
+# Damn Vulnerable Web Application
+# reference: https://hub.docker.com/r/vulnerables/web-dvwa
+  dvwa:
+    image: "vulnerables/web-dvwa"
+    container_name: "DVWA-Web"
     ports:
-      - "8008:8006"
-      - "3392:3389/tcp"
-      - "3392:3389/udp"
-    stop_grace_period: "2m"
+      - "3010:80"
     networks: ["laboratory"]
 
 #  _   _      _                      _        
@@ -47,10 +28,7 @@ networks:
 #    \  / (_) | | |_| | | | | | |  __/\__ \
 #     \/ \___/|_|\__,_|_| |_| |_|\___||___/
 
-#volumes:
-#  windows_storage: # Windows Storage
-#    name: "windows_storage"
-#  windows_share: # Windows Share
-#    name: "windows_share"
+# volumes:
+  # placeholder
 
 # CREATED BY Bruno Scholz

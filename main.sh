@@ -1,7 +1,7 @@
 #!/bin/bash
 # CREATED BY Bruno
 
-# Colordefinition for printmessage function
+# Colordefinition
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -17,39 +17,9 @@ print_msg() {
 # Check if executed as root #
 #############################
 if [ "$(id -u)" -ne 0 ]; then
-    print_msg "$RED" ">> This script must be run as root."
+    print_msg "$RED" ">> This script must be run as root or root privileges."
     exit 1
 fi
-
-config_controller() {
-    local config_file="./components/configuration.yaml"
-
-    if [ -f "$config_file" ]; then
-        print_msg "$BLUE" ">> Showing content of $config_file:"
-
-        # Extract services and iterate over them
-        services=$(yq eval '.services | keys' "$config_file" | sed 's/- //g')
-
-        for service in $services; do
-            status=$(yq eval ".services.\"$service\"" "$config_file")
-            port=$(yq eval ".ports.\"$service\"" "$config_file")
-            index=$((index + 1))
-
-            # Check service status and format output
-            if [ "$status" == "yes" ]; then
-                print_msg "$GREEN" "[$index] - $service: aktiv - Port: ${port:-'nicht definiert'}"
-            else
-                print_msg "$RED" "[$index] - $service: inaktiv"
-            fi
-        done
-
-        print_msg "$BLUE" ">> Configuration file is located at: $(realpath $config_file)"
-    else
-        print_msg "$RED" ">> Configuration file not found."
-    fi
-
-    read -p "Press Enter to return to the menu."
-}
 
 # ASCII-Art for Menue
 menu_ascii_art() {
@@ -73,42 +43,61 @@ show_menu() {
     print_msg "$YELLOW" "           Welcome to the Laboratory                 "
     print_msg "$BLUE" "======================================================="
     print_msg "$YELLOW" " > Please choose an option:"
-    print_msg "$GREEN" "    1) Setup project - (run first)"
-    print_msg "$GREEN" "    2) Start Laboratory"
-    print_msg "$GREEN" "    3) Stop Laboratory"
-    print_msg "$GREEN" "    4) Show Configuration"
-    print_msg "$GREEN" "    5) Exit Laboratory"
+    print_msg "$GREEN" "    1) Start Laboratory"
+    print_msg "$GREEN" "    2) Stop Laboratory"
+    print_msg "$GREEN" "    3) Load Config controlller"
+    print_msg "$GREEN" "    4) Exit Laboratory"
     print_msg "$BLUE" "======================================================="
 }
 
 setup_call() {
-    ./components/setup
+    if [ ! -f "./source/laboratory_setup" ]; then
+        print_msg "$RED" ">> Setup file not found"
+        exit 1
+    fi
+    ./source/laboratory_setup
     read -p "Press Enter to return to the menu."
 }
 
 start_call() {
-    ./components/start
+    if [ ! -f "./source/laboratory_start" ]; then
+        print_msg "$RED" ">> Start file not found"
+        exit 1
+    fi
+    ./source/laboratory_start
     read -p "Press Enter to return to the menu."
 }
 
 stop_call() {
-    ./components/stop
-    read -p "Press Enter to return to the menu"
+    if [ ! -f "./source/laboratory_stop" ]; then
+        print_msg "$RED" ">> Stop file not found"
+        exit 1
+    fi
+    ./source/laboratory_stop
+    read -p "Press Enter to return to the menu."
+}
+
+config_controller() {
+    if [ ! -f "./source/config_controller" ]; then
+        print_msg "$RED" ">> Stop file not found"
+        exit 1
+    fi
+    ./source/config_controller
+    read -p "Press Enter to return to the menu."
 }
 
 # Mainfunction
 main_menu() {
-    chmod +x ./components/start ./components/stop ./components/setup ./custom/builder
+    chmod +x ./source/laboratory_start ./source/laboratory_stop ./source/laboratory_setup ./laboratory-image/builder ./source/config_controller
     while true; do
         show_menu
-        read -p "Enter your choice [1-5]: " choice
+        read -p "Enter your choice [1-4]: " choice
         echo " "
         case $choice in
-        1) setup_call ;;
-        2) start_call ;;
-        3) stop_call ;;
-        4) config_controller ;;
-        5)
+        1) start_call ;;
+        2) stop_call ;;
+        3) config_controller ;;
+        4)
             print_msg "$RED" "Exiting the Laboratory. Goodbye!"
             break
             ;;
